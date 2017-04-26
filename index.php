@@ -16,7 +16,7 @@ DBMysqli::connect();
 $tb_stock = TB_Stock::instance();
 
 
-$res = $tb_stock->read(['id', 'name', 'created_at'], [], ['id' => 'desc', 'name2'=>'asc'], 1);
+$res = $tb_stock->read([], [], ['id' => 'desc', 'name2'=>'asc'], 1);
 dd($res);
 
 
