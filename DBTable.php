@@ -79,7 +79,6 @@ class DBTable
     protected function pre_create(array $values) {
         $db_keys = [];
         $db_values = [];
-        $db_str_values = '';
         foreach ($this->_columns as $i => $col) {
             $db_keys[$i] = '`'.$col.'`';
             $db_values[$i] = array_key_exists($col, $values) ? '\''.$values[$col].'\'' : 'NULL';
@@ -112,6 +111,36 @@ class DBTable
         }
 
         return false;
+    }
+
+    protected function pre_delete(array $filter) {
+        $db_filter = $this->pre_filter($filter);
+
+        return "DELETE FROM `{$this->_name}` WHERE {$db_filter}";
+    }
+
+    public function delete(array $filter) {
+        $db_query = $this->pre_delete($filter);
+
+        return self::$_driver::query($db_query);
+    }
+
+    protected function pre_update(array $values, array $filter) {
+        $db_filter = $this->pre_filter($filter);
+        foreach ($this->_columns as $i => $col) {
+            if (!array_key_exists($col, $values)) {continue;}
+
+            $db_update[] =  '`'.$col.'`'.'='.'\''.$values[$col].'\'';
+        }
+        $db_str_update = implode(',', $db_update);
+
+        return "UPDATE `{$this->_name}` SET {$db_str_update} WHERE {$db_filter}";
+    }
+
+    public function update(array $values, array $filter) {
+        $db_query = $this->pre_update($values, $filter);
+
+        return self::$_driver::query($db_query);
     }
 }
 
