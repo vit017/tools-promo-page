@@ -1,7 +1,24 @@
 <?php
 
 
-class DBMysqli
+
+interface DBDriver {
+
+
+    /**
+     * @return {Driver instance}
+     */
+    public static function instance();
+
+
+    /**
+     * Send query to db
+     * @return {Driver db result}
+     */
+    public static function query($query);
+}
+
+class DBMysqli implements DBDriver
 {
     private static $_instance = null;
     private $_db_host = 'localhost';
@@ -29,6 +46,10 @@ class DBMysqli
         }
     }
 
+    public static function instance() {
+        return self::$_instance;
+    }
+
     public static function close()
     {
         if (null !== self::$_instance) {
@@ -39,6 +60,10 @@ class DBMysqli
 
     public static function query($query)
     {
-        return self::$_instance->query($query);
+        $db_result = self::$_instance->query($query);
+        if (self::$_instance->errno) {
+            throw new mysqli_sql_exception(self::$_instance->error);
+        }
+        return $db_result;
     }
 }

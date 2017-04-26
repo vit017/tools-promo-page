@@ -3,6 +3,8 @@
 
 class DBTable
 {
+    protected static $_driver = DBMysqli::class;
+
     protected function __construct()
     {
         $this->set_columns();
@@ -15,7 +17,7 @@ class DBTable
     protected function set_columns()
     {
         $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$this->_name}'";
-        $db_result = DBMysqli::query($query);
+        $db_result = self::$_driver::query($query);
         while ($row = $db_result->fetch_row()) {
             array_push($this->_columns, $row[0]);
         }
@@ -74,11 +76,25 @@ class DBTable
         return "SELECT {$db_select} FROM `{$this->_name}` WHERE {$db_filter} {$db_order} {$db_limit}";
     }
 
+    protected function pre_create(array $values) {
+        $db_keys = [];
+        $db_values = [];
+        $db_str_values = '';
+        foreach ($this->_columns as $i => $col) {
+            $db_keys[$i] = '`'.$col.'`';
+            $db_values[$i] = array_key_exists($col, $values) ? '\''.$values[$col].'\'' : 'NULL';
+        }
+        $db_str_keys = implode(',',$db_keys);
+        $db_str_values = implode(',',$db_values);
+
+        return "INSERT INTO `{$this->_name}` ({$db_str_keys}) VALUES ({$db_str_values})";
+    }
+
     public function read(array $select, array $filter, array $order, int $limit)
     {
         $db_query = $this->pre_read($select, $filter, $order, $limit);
         $db_result = [];
-        $find = DBMysqli::query($db_query);
+        $find = self::$_driver::query($db_query);
         if ($find) {
             while ($row = $find->fetch_object()) {
                 $db_result[] = $row;
@@ -86,6 +102,16 @@ class DBTable
         }
 
         return $db_result;
+    }
+
+    public function create(array $values) {
+        $db_query = $this->pre_create($values);
+        $created = self::$_driver::query($db_query);
+        if ($created) {
+            return self::$_driver::instance()->insert_id;
+        }
+
+        return false;
     }
 }
 
