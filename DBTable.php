@@ -1,6 +1,29 @@
 <?php
 
 
+
+
+//$tb_stock = TB_Stock::instance();
+
+//$res = $tb_stock->read([], [], ['id' => 'desc', 'name2'=>'asc'], 0);
+//$res = $tb_stock->create([
+//    'name' => 'name 3',
+//    'code' => 'code3',
+//    'created_at' => time(),
+//    'updated_at' => time(),
+//    'date_active_start' => time(),
+//    'header' => 'header 3',
+//    'content' => 'контент 3',
+//    'footer' => 'футер 3'
+//]);
+//$res = $tb_stock->delete([]);
+//$res = $tb_stock->update(['name' => 'name 5'], ['id' => 26]);
+
+
+
+
+
+
 class DBTable
 {
     protected static $_driver = DBMysqli::class;

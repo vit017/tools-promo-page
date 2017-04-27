@@ -1,5 +1,7 @@
 <?php
 
+//DBMysqli::connect();
+//DBMysqli::close();
 
 
 interface DBDriver {
