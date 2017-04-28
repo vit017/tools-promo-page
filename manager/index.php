@@ -11,11 +11,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="/assets/ckeditor_4.6.2_standard/contents.css">
-
-    <script src="/assets/ckeditor_4.6.2_standard/ckeditor.js"></script>
-
-
+    <link rel="stylesheet" href="/assets/ckeditor/contents.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -67,7 +63,7 @@
                         <span class="input-group-addon">
                             <span><?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"] . '/' ?></span>
                         </span>
-                        <input type='text' name="date_show_end" placeholder="Дата окончания показа страницы"
+                        <input type='text' name="date_show_end" placeholder="URL страницы"
                                class="form-control"/>
                     </div>
                 </div>
@@ -112,10 +108,14 @@
 <script src="/assets/js/moment-with-locales.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/assets/ckeditor/ckeditor.js"></script>
 
 
 <script>
-    CKEDITOR.replace('footer');
+    CKEDITOR.replace('footer', {
+        filebrowserBrowseUrl: '/assets/ckeditor/ckfinder/ckfinder.html',
+        filebrowserUploadUrl: '/assets/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+    });
 </script>
 
 
