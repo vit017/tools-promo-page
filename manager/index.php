@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/assets/ckeditor/contents.css">
+    <link rel="stylesheet" href="/assets/css/manager.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -32,14 +33,14 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="save.php" method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
                     <label>Дата начала показа страницы</label>
                     <div class='input-group date datetimepicker'>
                         <input type='text' name="date_show_start"
                                placeholder="Дата начала показа страницы"
-                               class="form-control"/>
+                               class="form-control require"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -50,7 +51,7 @@
                     <label>Дата окончания показа страницы</label>
                     <div class='input-group date datetimepicker'>
                         <input type='text' name="date_show_end" placeholder="Дата окончания показа страницы"
-                               class="form-control"/>
+                               class="form-control require"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -63,38 +64,27 @@
                         <span class="input-group-addon">
                             <span><?= $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"] . '/' ?></span>
                         </span>
-                        <input type='text' name="date_show_end" placeholder="URL страницы"
-                               class="form-control"/>
+                        <input type='text' name="url" placeholder="URL страницы"
+                               class="form-control require"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Название акции</label>
-                    <input type='text' name="name" placeholder="Название акции" class="form-control"/>
+                    <input type='text' name="name" placeholder="Название акции" class="form-control require"/>
                 </div>
 
                 <div class="form-group">
                     <label>Шапка</label>
-                    <textarea name="header" class="form-control" id="" cols="30" rows="10"></textarea>
+                    <textarea name="header" class="form-control editor" id="" cols="30" rows="10"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Подвал</label>
-                    <textarea name="footer" class="form-control" id="" cols="30" rows="10"></textarea>
+                    <textarea name="footer" class="form-control editor" id="" cols="30" rows="10"></textarea>
                 </div>
 
-                <? /*
-    <div class="form__field">
-        <input type="text" placeholder="Название акции" name="url">
-    </div>
-    <div class="form__field">
-        <textarea name="header" id="" cols="30" rows="10">шапка</textarea>
-    </div>
-    <div class="form__field">
-        <textarea name="footer" id="" cols="30" rows="10">подвал</textarea>
-    </div>
-
-*/ ?>
+                <input class="btn btn-default" id="save-promo" type="submit" value="Submit">
             </form>
         </div>
     </div>
@@ -109,17 +99,8 @@
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/assets/ckeditor/ckeditor.js"></script>
-
-
-<script>
-    CKEDITOR.replace('footer', {
-        filebrowserBrowseUrl: '/assets/ckeditor/ckfinder/ckfinder.html',
-        filebrowserUploadUrl: '/assets/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
-    });
-</script>
-
-
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/functions.js"></script>
+<script src="/assets/js/manager.js"></script>
 </body>
 </html>
 

@@ -21,10 +21,7 @@
 
 
 
-
-
-
-class DBTable
+class Table
 {
     protected static $_driver = DBMysqli::class;
 
@@ -165,57 +162,11 @@ class DBTable
 
         return self::$_driver::query($db_query);
     }
-}
 
-class TB_Stock extends DBTable
-{
-    protected $_name = 'corp_stock';
-    protected $_columns = [];
+    public function load(array $input) {
 
-    protected static $_instance = null;
-
-    protected function __construct()
-    {
-        $this->set_columns();
-    }
-
-    protected function __clone()
-    {
-    }
-
-    public static function instance()
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
     }
 }
 
-class TB_Product extends DBTable
-{
-    protected $_prefix = 'corp_';
-    protected $_name = 'product';
-    protected $_columns = [];
 
-    protected static $_instance = null;
 
-    protected function __construct()
-    {
-        $this->set_columns();
-    }
-
-    protected function __clone()
-    {
-    }
-
-    public static function instance()
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-}

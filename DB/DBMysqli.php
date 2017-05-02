@@ -1,10 +1,8 @@
 <?php
 
-//DBMysqli::connect();
-//DBMysqli::close();
 
 
-interface DBDriver {
+interface Driver {
 
 
     /**
@@ -20,7 +18,7 @@ interface DBDriver {
     public static function query($query);
 }
 
-class DBMysqli implements DBDriver
+class DBMysqli implements Driver
 {
     private static $_instance = null;
     private $_db_host = 'localhost';
@@ -31,7 +29,7 @@ class DBMysqli implements DBDriver
 
     private function __construct()
     {
-        $this->_connect = @new mysqli($this->_db_host, $this->_db_user, $this->_user_pswd, $this->_db_name);
+        $this->_connect = new mysqli($this->_db_host, $this->_db_user, $this->_user_pswd, $this->_db_name);
         if (mysqli_connect_errno()) {
             throw new mysqli_sql_exception(mysqli_connect_error());
         }
@@ -41,15 +39,15 @@ class DBMysqli implements DBDriver
     {
     }
 
+    public static function instance() {
+        return self::$_instance;
+    }
+
     public static function connect()
     {
         if (null === self::$_instance) {
             self::$_instance = (new self())->_connect;
         }
-    }
-
-    public static function instance() {
-        return self::$_instance;
     }
 
     public static function close()
