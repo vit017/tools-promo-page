@@ -1,9 +1,9 @@
-<?php
-
-
+<?
 require_once __DIR__ . '/functions.php';
-require_once __DIR__ . '/DBMysqli.php';
-require_once __DIR__ . '/DBTable.php';
+require_once __DIR__ . '/DB/DBMysqli.php';
+require_once __DIR__ . '/DB/Table.php';
+
+DBMysqli::connect();
 
 
 
@@ -13,29 +13,37 @@ require_once __DIR__ . '/DBTable.php';
 
 
 
-class Stock
-{
 
 
-    public function create()
-    {
-
-    }
-
-    public function read()
-    {
-
-    }
-
-    public function update()
-    {
-
-    }
-
-    public function delete()
-    {
-
-    }
+$Stock = Stock::instance();
+$Stock->read([], ['date_show_start']);
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DBMysqli::close();
