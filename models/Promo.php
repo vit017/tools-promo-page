@@ -4,8 +4,8 @@
 
 namespace V_Corp\models;
 
-use V_Corp\DB\ITable;
-use V_Corp\DB\Table;
+use V_Corp\base\DB\ITable;
+use V_Corp\base\DB\Table;
 
 
 
@@ -14,7 +14,7 @@ use V_Corp\DB\Table;
 class Promo extends Table implements ITable {
 
 
-    
+
 
 
 

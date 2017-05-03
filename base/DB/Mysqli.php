@@ -1,7 +1,7 @@
 <?php
 
 
-namespace V_Corp\DB;
+namespace V_Corp\base\DB;
 
 
 

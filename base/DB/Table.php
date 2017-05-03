@@ -2,9 +2,9 @@
 
 
 
-namespace V_Corp\DB;
+namespace V_Corp\base\DB;
 
-use V_Corp\DB\Exception\TableException;
+use V_Corp\base\Exception\TableException;
 
 class Table implements ITable {
 
