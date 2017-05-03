@@ -5,7 +5,7 @@ $(function () {
 
     CKEDITOR.replaceAll('editor');
 
-    $('#save-promo').on('click', function(event) {
+    $('#save-promo2').on('click', function(event) {
         var $form = $(event.target).closest('form');
         if (!validateForm($form[0])) {
             return false;
