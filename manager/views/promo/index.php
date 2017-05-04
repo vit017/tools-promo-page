@@ -6,6 +6,9 @@ dd(__FILE__, 0);
         <div class="col-md-12">
             <h1><?= $this->title ?></h1>
         </div>
+        <div class="col-md-12">
+            <a href="/manager/promo/add">Add Promo</a>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -23,9 +26,9 @@ dd(__FILE__, 0);
                             <td><?= $model->$key ?></td>
                         <? endforeach; ?>
                         <td class="table__edit">
-                            <a href="/manager/promo/update?model=<?= get_class($this->model) ?>&id=<?= $model->id ?>"><span
+                            <a href="/manager/promo/update?id=<?= $model->id ?>"><span
                                     class="glyphicon glyphicon-pencil"></span></a>
-                            <a href="/manager/promo/delete?model=<?= get_class($this->model) ?>&id=<?= $model->id ?>"><span
+                            <a href="/manager/promo/delete?id=<?= $model->id ?>"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     </tr>

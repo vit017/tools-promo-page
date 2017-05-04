@@ -73,7 +73,7 @@ class PromoModel extends ModelMysqli {
     public function afterFind() {
         $types = $this->types();
         foreach ($this->keys() as $i => $key) {
-            if ('date' === $types[$key]) {
+            if (('date' === $types[$key]) && $this->$key) {
                 $this->$key = date('d.m.Y H:i', $this->$key);
             }
         }
@@ -82,7 +82,7 @@ class PromoModel extends ModelMysqli {
     public function beforeSave() {
         $types = $this->types();
         foreach ($this->keys() as $i => $key) {
-            if ('date' === $types[$key]) {
+            if (('date' === $types[$key]) && $this->$key) {
                 $this->$key = strtotime($this->$key);
             }
         }

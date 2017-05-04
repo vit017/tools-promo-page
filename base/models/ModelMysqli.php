@@ -9,11 +9,13 @@ use V_Corp\base\db\Mysqli;
 class ModelMysqli
 {
 
+    public static $defaultSort = 'id desc';
+
     public static function find(int $primary)
     {
         $query = 'SELECT * FROM ' . static::tableName() . ' WHERE `id`=' . $primary . ' LIMIT 1';
         $db_result = self::driver()->query($query);
-        if (!$db_result) {
+        if (!$db_result->num_rows) {
             return null;
         }
 
@@ -26,9 +28,9 @@ class ModelMysqli
 
     public static function findAll()
     {
-        $query = 'SELECT * FROM ' . static::tableName();
+        $query = 'SELECT * FROM ' . static::tableName() . ' ORDER BY '.static::$defaultSort;
         $db_result = self::driver()->query($query);
-        if (!$db_result) {
+        if (!$db_result->num_rows) {
             return null;
         }
 
@@ -44,6 +46,22 @@ class ModelMysqli
 
     public function delete() {
         $query = 'DELETE FROM ' . static::tableName() . ' WHERE `id`='.$this->id;
+        return self::driver()->query($query);
+    }
+
+    public function insert() {
+        $keys = $this->keys();
+        $values = $this->values();
+        foreach ($keys as $i => $key) {
+            $sKeys[] = '`'.$key.'`';
+        }
+        foreach ($values as $i => $value) {
+            $sValues[] = '\''.$value.'\'';
+        }
+        $sKeys = implode(',', $sKeys);
+        $sValues = implode(',', $sValues);
+
+        $query = 'INSERT INTO `'.static::tableName().'` ('.$sKeys.') VALUES ('.$sValues.')';
         return self::driver()->query($query);
     }
 
