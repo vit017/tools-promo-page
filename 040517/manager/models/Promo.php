@@ -50,7 +50,7 @@ class Promo extends Table implements ITable
     }
 
     public function beforeSave() {
-        $this->date_
+        
     }
 
     public function load(array $input) {
