@@ -13,12 +13,14 @@ use V_Corp\base\Html;
                 echo Html::noedit($attributes[$key], $key, $data);
                 break;
             case 'raw':
+                $data = htmlspecialchars($data);
                 echo Html::raw($attributes[$key], $key, $data);
                 break;
             case 'date':
                 echo Html::date($attributes[$key], $key, $data);
                 break;
             case 'text':
+                $data = htmlspecialchars($data);
                 echo Html::text($attributes[$key], $key, $data);
                 break;
         }

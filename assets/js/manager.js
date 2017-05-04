@@ -3,15 +3,20 @@ $(function () {
         language: 'ru'
     });
 
-    CKEDITOR.replaceAll('editor');
+    CKEDITOR.replaceAll(function(textarea, cnf) {
+        if (!$(textarea).hasClass('editor')) return;
+        cnf.filebrowserBrowseUrl = '/assets/ckeditor/ckfinder/ckfinder.html';
+        cnf.filebrowserUploadUrl = '/assets/ckeditor/upload.php';
+        return true;
+    });
 
-    $('#save-promo2').on('click', function(event) {
+    $('#save-promo2').on('click', function (event) {
         var $form = $(event.target).closest('form');
         if (!validateForm($form[0])) {
             return false;
         }
         var fd = new FormData($form[0]);
-        Object.keys(CKEDITOR.instances).forEach(function(fieldName) {
+        Object.keys(CKEDITOR.instances).forEach(function (fieldName) {
             fd.append(fieldName, CKEDITOR.instances[fieldName].getData().trim());
         });
 
@@ -21,7 +26,7 @@ $(function () {
             processData: false,
             contentType: false,
             type: 'POST',
-            success: function(data) {
+            success: function (data) {
                 cl(data)
             }
         });
@@ -31,22 +36,19 @@ $(function () {
     });
 
 
-
-
 });
-
 
 
 function validateForm(form) {
     return (
         checkRequired(form)
-    &&  checkDates($(form).find('[name="date_show_start"]')[0], $(form).find('[name="date_show_end"]')[0])
+        && checkDates($(form).find('[name="date_show_start"]')[0], $(form).find('[name="date_show_end"]')[0])
     );
 }
 
 function checkRequired(form) {
     var error = false;
-    $(form).find('.require').each(function(i, item) {
+    $(form).find('.require').each(function (i, item) {
         if (item.value.trim() === '') {
             $(item).closest('.form-group').removeClass('has-success');
             $(item).closest('.form-group').addClass('has-error');

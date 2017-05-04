@@ -36,7 +36,7 @@ class Html
     public static function text($label, $name, $data)
     {
         return '<label>' . $label . '</label>
-                <textarea name="' . $name . '" class="form-control editor" value="' . $data . '" id="" cols="30" rows="10">' . $data . '</textarea>';
+                <textarea name="' . $name . '" class="form-control editor" value="' . $data . '" cols="30" rows="10">' . $data . '</textarea>';
     }
 
     public static function img($label, $name, $data)
@@ -51,14 +51,16 @@ class Html
         return $out;
     }
 
-    public static function select($selected, $name, $data)
+    public static function select($label, $name, $data, $selected)
     {
         $sOpt = '';
         foreach ($data as $id => $option) {
             $active = ($id == $selected) ? 'selected' : '';
             $sOpt .= '<option ' . $active . ' value="' . $option["value"] . '">' . $option["label"] . '</option>';
         }
-        return '<select name="' . $name . '" class="form-control">' . $sOpt . '</select>';
+
+        return '<label>' . $label . '</label>
+                <select name="' . $name . '" class="form-control">' . $sOpt . '</select>';
     }
 
 

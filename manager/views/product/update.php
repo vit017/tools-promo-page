@@ -31,10 +31,12 @@ use V_Corp\common\models\PromoModel;
                 echo Html::text($attributes[$key], $key, $data);
                 break;
             case 'page':
-                echo Html::select($this->data->page->id, $key, $arPages);
+                echo Html::select($attributes[$key], $key, $arPages, $this->data->page->id);
                 break;
             case 'img':
-                $data = Filer::getPreview($data);
+                if ($data) {
+                    $data = Filer::getPreview($data);
+                }
                 echo Html::img($attributes[$key], $key, $data);
                 break;
         }
