@@ -17,6 +17,8 @@ class PromoModel extends ModelMysqli {
     public $header;
     public $footer;
 
+    public $products;
+
 
     public function __toString()
     {
@@ -72,6 +74,10 @@ class PromoModel extends ModelMysqli {
 
     public static function find(int $id) {
         return parent::find($id);
+    }
+
+    public static function findByAttr($key, $val, $condition) {
+        return parent::findByAttr($key, $val, $condition);
     }
 
     public function afterFind() {

@@ -14,6 +14,7 @@ class ProductModel extends ModelMysqli
     public $code;
     public $name;
     public $photo;
+    public $price;
     public $articul;
     public $page;
 
@@ -27,6 +28,7 @@ class ProductModel extends ModelMysqli
             'page' => 'Promo Page Id',
             'name' => 'Name',
             'photo' => 'Photo',
+            'price' => 'Price',
             'articul' => 'Article number',
         ];
     }
@@ -39,6 +41,7 @@ class ProductModel extends ModelMysqli
             'page' => 'page',
             'name' => 'raw',
             'photo' => 'img',
+            'price' => 'raw',
             'articul' => 'raw',
         ];
     }

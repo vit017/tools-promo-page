@@ -54,7 +54,7 @@ class Router
         $handler[1] = $handler[1] ?: ($matches[1] ?: 'index');
 
         if (method_exists($handler[0], $handler[1])) {
-            call_user_func($handler, $url);
+            call_user_func($handler, $matches[1]);
             exit();
         }
     }
