@@ -1,11 +1,18 @@
 <?php
 use V_Corp\base\Html;
+use V_Corp\common\models\PromoModel;
 
 ?>
 
 <form action="" method="post" enctype="multipart/form-data">
     <? $types = $this->model->types() ?>
     <? $attributes = $this->model->attributes() ?>
+    <? $pages = PromoModel::findAll() ?>
+    <?
+    foreach ($pages as $page) {
+        $options[$page->id] = ['label' => $page->name, 'value' => $page->id];
+    }
+    ?>
     <? foreach ($this->data as $key => $data) {
         echo '<div class="form-group">';
         switch ($types[$key]) {
@@ -20,6 +27,10 @@ use V_Corp\base\Html;
                 break;
             case 'text':
                 echo Html::text($attributes[$key], $key, $data);
+                break;
+            case 'pages':
+                $prop = $key.'Id';
+                echo Html::select($this->data->$prop, $key, $options);
                 break;
         }
         echo '</div>';
