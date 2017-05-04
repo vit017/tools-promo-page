@@ -4,7 +4,7 @@
 spl_autoload_register(function ($class_name) {
     $ar_class = explode('\\', $class_name);
     $class = implode(DIRECTORY_SEPARATOR, array_splice($ar_class, 1));
-
+    
     include_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $class . '.php';
 });
 
