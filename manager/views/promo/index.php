@@ -1,7 +1,12 @@
+<?
+$attrs = $this->model->attributes();
+unset($attrs['header']);
+unset($attrs['footer']);
+?>
 <a href="/manager/promo/add">Add Promo</a>
 <table class="table table-bordered table-responsive">
     <thead>
-    <? foreach ($this->model->attributes() as $key => $attr): ?>
+    <? foreach ($attrs as $key => $attr): ?>
         <th><?= $attr ?></th>
     <? endforeach; ?>
     <th class="table__edit"></th>
@@ -9,7 +14,7 @@
     <tbody>
     <? foreach ($this->data as $model): ?>
         <tr>
-            <? foreach ($this->model->attributes() as $key => $attr): ?>
+            <? foreach ($attrs as $key => $attr): ?>
                 <td><?= $model->$key ?></td>
             <? endforeach; ?>
             <td class="table__edit">
