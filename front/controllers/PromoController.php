@@ -36,11 +36,4 @@ class PromoController extends Controller
 
         $view->render();
     }
-
-    public static function redirect($url)
-    {
-        header('Location: ' . $url);
-        exit();
-    }
-
 }

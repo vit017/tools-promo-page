@@ -9,7 +9,7 @@ use V_Corp\front\controllers\PromoController;
 use V_Corp\base\Router;
 
 
-Router::get('/promo/(\\w+)', [PromoController::class, 'show']);
 Router::get('/', [PromoController::class, 'index']);
+Router::get('/promo/(\\w+)', [PromoController::class, 'show']);
 
 //throw new \V_Corp\base\exceptions\NotFoundHttpException('');
