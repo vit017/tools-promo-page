@@ -4,6 +4,7 @@
 namespace V_Corp\common\models;
 
 use V_Corp\base\models\ModelMysqli;
+use V_Corp\base\Filer;
 
 
 class ProductModel extends ModelMysqli
@@ -16,7 +17,6 @@ class ProductModel extends ModelMysqli
     public $articul;
     public $page;
 
-    public $pageId;
     protected static $pages = null;
 
     public function attributes()
@@ -36,9 +36,9 @@ class ProductModel extends ModelMysqli
         return [
             'id' => 'noedit',
             'code' => 'raw',
-            'page' => 'pages',
+            'page' => 'page',
             'name' => 'raw',
-            'photo' => 'file',
+            'photo' => 'img',
             'articul' => 'raw',
         ];
     }
@@ -83,17 +83,7 @@ class ProductModel extends ModelMysqli
             }
         }
 
-        if (!self::$pages) {
-            $pages = PromoModel::findAll();
-            foreach ($pages as $page) {
-                self::$pages[$page->id] = $page;
-            }
-        }
-
-        if (array_key_exists($this->page, self::$pages)) {
-            $this->pageId = $this->page;
-            $this->page = self::$pages[$this->page]->name . ' #' . self::$pages[$this->page]->id;
-        }
+        $this->page = PromoModel::find($this->page);
     }
 
     public function pages()
@@ -108,6 +98,10 @@ class ProductModel extends ModelMysqli
             if (('date' === $types[$key]) && $this->$key) {
                 $this->$key = strtotime($this->$key);
             }
+        }
+
+        if ($_FILES['photo']['tmp_name']) {
+            $this->photo = Filer::upload($this, $_FILES['photo']);
         }
     }
 

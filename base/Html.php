@@ -39,9 +39,16 @@ class Html
                 <textarea name="' . $name . '" class="form-control editor" value="' . $data . '" id="" cols="30" rows="10">' . $data . '</textarea>';
     }
 
-    public static function file()
+    public static function img($label, $name, $data)
     {
+        $out = '<label>' . $label . '</label>
+                <input type="file" name="' . $name . '">';
 
+        if ($data) {
+            $out .= '<img src="' . $data . '">';
+        }
+
+        return $out;
     }
 
     public static function select($selected, $name, $data)

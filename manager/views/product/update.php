@@ -1,5 +1,6 @@
 <?php
 use V_Corp\base\Html;
+use V_Corp\base\Filer;
 use V_Corp\common\models\PromoModel;
 
 ?>
@@ -9,8 +10,9 @@ use V_Corp\common\models\PromoModel;
     <? $attributes = $this->model->attributes() ?>
     <? $pages = PromoModel::findAll() ?>
     <?
+    $arPages = [];
     foreach ($pages as $page) {
-        $options[$page->id] = ['label' => $page->name, 'value' => $page->id];
+        $arPages[$page->id] = ['label' => $page->name, 'value' => $page->id];
     }
     ?>
     <? foreach ($this->data as $key => $data) {
@@ -28,9 +30,12 @@ use V_Corp\common\models\PromoModel;
             case 'text':
                 echo Html::text($attributes[$key], $key, $data);
                 break;
-            case 'pages':
-                $prop = $key.'Id';
-                echo Html::select($this->data->$prop, $key, $options);
+            case 'page':
+                echo Html::select($this->data->page->id, $key, $arPages);
+                break;
+            case 'img':
+                $data = Filer::getPreview($data);
+                echo Html::img($attributes[$key], $key, $data);
                 break;
         }
         echo '</div>';

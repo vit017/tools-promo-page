@@ -18,6 +18,10 @@ class PromoModel extends ModelMysqli {
     public $footer;
 
 
+    public function __toString()
+    {
+        return $this->name.' #'.$this->id;
+    }
 
     public function attributes() {
         return [

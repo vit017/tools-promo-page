@@ -10,6 +10,7 @@ $attrs = $this->model->attributes();
     <th class="table__edit"></th>
     </thead>
     <tbody>
+    <?if (!$this->data) $this->data = []?>
     <? foreach ($this->data as $model): ?>
         <tr>
             <? foreach ($attrs as $key => $attr): ?>
