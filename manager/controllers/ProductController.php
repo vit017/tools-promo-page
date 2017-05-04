@@ -66,7 +66,7 @@ class ProductController extends Controller
 
         if ($model = ProductModel::find($id)) {
             $view = new ProductView('update', $model);
-            $view->title = 'Update Product#' . $model->id . ' "' . $model->name . '"';
+            $view->title = 'Update Product #' . $model->id;
             $view->model = $model;
             $view->controller = new self();
 

@@ -25,7 +25,7 @@ class ProductModel extends ModelMysqli
         return [
             'id' => 'Id',
             'code' => 'Code',
-            'page' => 'Promo Page Id',
+            'page' => 'Promo Page',
             'name' => 'Name',
             'photo' => 'Photo',
             'price' => 'Price',

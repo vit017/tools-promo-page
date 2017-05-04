@@ -16,7 +16,7 @@ class PromoController extends Controller
 
     public static function index()
     {
-        $models = PromoModel::findAll();
+        $models = PromoModel::findAllByAndCondition(['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
         $view = new PromoView('index', $models);
         $view->title = 'Promo Pages';
         $view->model = new PromoModel();
@@ -27,8 +27,7 @@ class PromoController extends Controller
 
     public static function show($url)
     {
-
-        $model = PromoModel::findByAttr('url', $url, '=');
+        $model = PromoModel::findByAndCondition(['url', $url, '='], ['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
         $model->products = ProductModel::findAllByAttr('page', $model->id, '=');
         $view = new PromoView('show', $model);
         $view->title = $model->name;

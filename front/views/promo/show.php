@@ -1,6 +1,6 @@
 <?= $this->data->header; ?>
 
-<? foreach ($this->data->products as $key => $product): ?>
+<? foreach ((array)$this->data->products as $key => $product): ?>
     <div class="product">
         <div class="product__title">
             <?= $product->name; ?>
