@@ -12,7 +12,7 @@
             <?= $product->articul; ?>
         </div>
         <div class="product__price">
-            <?= $product->price; ?>
+            <?= $product->price; ?>&nbsp;<?= $product->currency; ?>
         </div>
     </div>
 <? endforeach; ?>

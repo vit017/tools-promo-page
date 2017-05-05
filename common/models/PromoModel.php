@@ -1,13 +1,13 @@
 <?php
 
 
-
 namespace V_Corp\common\models;
 
-use V_Corp\base\models\ModelMysqli;
+use V_Corp\base\models\Model;
 
 
-class PromoModel extends ModelMysqli {
+class PromoModel extends Model
+{
 
     public $id;
     public $url;
@@ -22,10 +22,11 @@ class PromoModel extends ModelMysqli {
 
     public function __toString()
     {
-        return $this->name.' #'.$this->id;
+        return $this->name . ' #' . $this->id;
     }
 
-    public function attributes() {
+    public function attributes()
+    {
         return [
             'id' => 'Id',
             'url' => 'Page Url',
@@ -37,7 +38,8 @@ class PromoModel extends ModelMysqli {
         ];
     }
 
-    public function types() {
+    public function types()
+    {
         return [
             'id' => 'noedit',
             'url' => 'raw',
@@ -49,11 +51,13 @@ class PromoModel extends ModelMysqli {
         ];
     }
 
-    public function keys() {
+    public function keys()
+    {
         return array_keys($this->attributes());
     }
 
-    public function values() {
+    public function values()
+    {
         $types = $this->types();
         $res = [];
         foreach ($this->attributes() as $key => $val) {
@@ -63,24 +67,29 @@ class PromoModel extends ModelMysqli {
         return $res;
     }
 
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'corp_promo';
     }
 
 
-    public static function findAll() {
+    public static function findAll()
+    {
         return parent::findAll();
     }
 
-    public static function find(int $id) {
+    public static function find(int $id)
+    {
         return parent::find($id);
     }
 
-    public static function findByAttr($key, $val, $condition) {
+    public static function findByAttr($key, $val, $condition)
+    {
         return parent::findByAttr($key, $val, $condition);
     }
 
-    public function afterFind() {
+    public function afterFind()
+    {
         $types = $this->types();
         foreach ($this->keys() as $i => $key) {
             if (('date' === $types[$key]) && $this->$key) {
@@ -89,7 +98,8 @@ class PromoModel extends ModelMysqli {
         }
     }
 
-    public function beforeSave() {
+    public function beforeSave()
+    {
         $types = $this->types();
         foreach ($this->keys() as $i => $key) {
             if (('date' === $types[$key]) && $this->$key) {
@@ -98,7 +108,8 @@ class PromoModel extends ModelMysqli {
         }
     }
 
-    public function load(array $input) {
+    public function load(array $input)
+    {
         foreach ($input as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
@@ -107,9 +118,6 @@ class PromoModel extends ModelMysqli {
 
         return $this;
     }
-
-
-
 
 
 }

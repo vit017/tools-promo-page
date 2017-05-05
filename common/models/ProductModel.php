@@ -3,11 +3,11 @@
 
 namespace V_Corp\common\models;
 
-use V_Corp\base\models\ModelMysqli;
+use V_Corp\base\models\Model;
 use V_Corp\base\Filer;
 
 
-class ProductModel extends ModelMysqli
+class ProductModel extends Model
 {
 
     public $id;
@@ -15,6 +15,7 @@ class ProductModel extends ModelMysqli
     public $name;
     public $photo;
     public $price;
+    public $currency;
     public $articul;
     public $page;
 
@@ -29,6 +30,7 @@ class ProductModel extends ModelMysqli
             'name' => 'Name',
             'photo' => 'Photo',
             'price' => 'Price',
+            'currency' => 'Currency',
             'articul' => 'Article number',
         ];
     }
@@ -42,6 +44,7 @@ class ProductModel extends ModelMysqli
             'name' => 'raw',
             'photo' => 'img',
             'price' => 'raw',
+            'currency' => 'raw',
             'articul' => 'raw',
         ];
     }

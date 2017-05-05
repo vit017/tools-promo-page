@@ -1,7 +1,7 @@
 <?php
 
 
-namespace V_Corp\base\models;
+namespace V_Corp\base\db;
 
 
 use V_Corp\base\db\Mysqli;

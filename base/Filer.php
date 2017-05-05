@@ -45,7 +45,7 @@ class Filer
         $name = array_pop($arPath);
         $smallPath = implode('/', $arPath) . self::$smallPath;
         $imgPath = $smallPath . '/' . $name;
-
+        
         if (!file_exists($imgPath)) {
             $imgPath = self::makeSmall(implode('/', $arPath), $name);
         }
