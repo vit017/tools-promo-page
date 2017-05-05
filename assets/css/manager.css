@@ -4,3 +4,7 @@ body {
 .table__edit {
     width: 5%;
 }
+
+.form-error {
+    color: red;
+}

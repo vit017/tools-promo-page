@@ -1,5 +1,7 @@
-1) model validate method
++ 1) model validate method
 2) clean in dirs, remove redundant folders, files
 3) sql queries injection
 4) improve page-proofs
-5) exceptions: 404, 400, 500
+5) caught exceptions: 404, 400, 500
+6) import
+7) mysqli connect -> close

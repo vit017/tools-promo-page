@@ -1,5 +1,5 @@
 <?
-$attrs = $this->model->attributes();
+$attrs = $this->data[0]->attributes();
 unset($attrs['header']);
 unset($attrs['footer']);
 ?>

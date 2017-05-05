@@ -6,18 +6,11 @@ namespace V_Corp\base;
 
 use V_Corp\base\exceptions\NotFoundHttpException;
 
+
+
 class Router
 {
 
-    private function __construct()
-    {
-
-    }
-
-    private function __clone()
-    {
-
-    }
 
     protected static function matchUrl($url) {
         $parse_url = parse_url($_SERVER['REQUEST_URI']);

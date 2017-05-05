@@ -4,10 +4,17 @@ use V_Corp\base\Filer;
 use V_Corp\common\models\PromoModel;
 
 ?>
-
+<?
+$model = $this->data;
+$errors = $model->getErrors() ?>
+<? if (count($errors)): ?>
+    <? foreach ($errors as $error): ?>
+        <p class="form-error"><?= $error?></p>
+    <? endforeach; ?>
+<? endif; ?>
 <form action="" method="post" enctype="multipart/form-data">
-    <? $types = $this->model->types() ?>
-    <? $attributes = $this->model->attributes() ?>
+    <? $types = $model->types() ?>
+    <? $attributes = $model->attributes() ?>
     <? $pages = PromoModel::findAll() ?>
     <?
     $arPages = [];
@@ -15,29 +22,29 @@ use V_Corp\common\models\PromoModel;
         $arPages[$page->id] = ['label' => $page->name, 'value' => $page->id];
     }
     ?>
-    <? foreach ($this->data as $key => $data) {
+    <? foreach ($attributes as $key => $label) {
         echo '<div class="form-group">';
         switch ($types[$key]) {
             case 'noedit':
-                echo Html::noedit($attributes[$key], $key, $data);
+                echo Html::noedit($label, $key, $model->$key);
                 break;
             case 'raw':
-                echo Html::raw($attributes[$key], $key, $data);
+                echo Html::raw($label, $key, $model->$key);
                 break;
             case 'date':
-                echo Html::date($attributes[$key], $key, $data);
+                echo Html::date($label, $key, $model->$key);
                 break;
             case 'text':
-                echo Html::text($attributes[$key], $key, $data);
+                echo Html::text($label, $key, $model->$key);
                 break;
             case 'page':
-                echo Html::select($attributes[$key], $key, $arPages, $this->data->page->id);
+                echo Html::select($label, $key, $arPages, $model->page->id);
                 break;
             case 'img':
-                if ($data) {
-                    $data = Filer::getPreview($data);
+                if ($model->$key) {
+                    $model->$key = Filer::getPreview($model->$key);
                 }
-                echo Html::img($attributes[$key], $key, $data);
+                echo Html::img($label, $key, $model->$key);
                 break;
         }
         echo '</div>';

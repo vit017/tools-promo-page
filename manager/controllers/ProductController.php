@@ -12,16 +12,17 @@ use V_Corp\manager\views\ProductView;
 class ProductController extends Controller
 {
 
+    public static function show($action)
+    {
+        if (method_exists(static::class, $action)) {
+            return call_user_func([static::class, $action]);
+        }
+    }
 
     public static function index()
     {
         $models = ProductModel::findAll();
-        $view = new ProductView('index', $models);
-        $view->title = 'Products Page';
-        $view->model = new ProductModel();
-        $view->controller = new self();
-
-        $view->render();
+        (new ProductView('index', $models))->render();
     }
 
     public static function delete()
@@ -35,45 +36,65 @@ class ProductController extends Controller
         self::redirect('/manager/products');
     }
 
-    public static function add()
+    protected static function post($id = 0)
     {
+        $model = ($id > 0) ? ProductModel::find($id) : new ProductModel();
         if (is_array($_POST) && count($_POST)) {
-            $model = new ProductModel();
             $model->load($_POST);
-            $model->save();
-            self::redirect('/manager/products');
+            if ($model->save()) {
+                self::redirect('/manager/products');
+            }
         }
 
-        $model = new ProductModel();
-        $view = new ProductView('update', $model);
-        $view->title = 'Create Product';
-        $view->model = $model;
-        $view->controller = new self();
+        return is_object($model) ? $model : new ProductModel();
+    }
 
-        $view->render();
+    public static function add()
+    {
+        self::save();
     }
 
     public static function update()
     {
-        $id = (int)$_GET['id'];
+        self::save((int)$_GET['id']);
+    }
 
-        if (is_array($_POST) && count($_POST)) {
-            $model = ProductModel::find($id);
-            $model->load($_POST);
-            $model->save();
+    protected static function save($id = 0)
+    {
+        $model = self::post($id);
+
+        (new ProductView('update', $model))->render();
+    }
+
+    public static function import()
+    {
+        if (!$_FILES['import']['tmp_name']) {
             self::redirect('/manager/products');
         }
-
-        if ($model = ProductModel::find($id)) {
-            $view = new ProductView('update', $model);
-            $view->title = 'Update Product #' . $model->id;
-            $view->model = $model;
-            $view->controller = new self();
-
-            $view->render();
-        } else {
-            throw new NotFoundHttpException('Product #' . $id . ' not found');
+        $fName = $_FILES['import']['tmp_name'];
+        $arTitle = [];
+        $arData = [];
+        $models = [];
+        $handle = fopen($fName, 'r');
+        $k = 0;
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            if (!$arTitle) {
+                $arTitle = $data;
+            } else {
+                foreach ($data as $i => $val) {
+                    $arData[$k][$arTitle[$i]] = $val;
+                }
+                $model = new ProductModel();
+                $model->load($arData[$k]);
+                $models[$k] = $model;
+                $k++;
+            }
         }
+        fclose($handle);
+
+        ProductModel::insertAll($models);
+
+        self::redirect('/manager/products');
     }
 
     public static function redirect($url)

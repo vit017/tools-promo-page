@@ -1,5 +1,5 @@
 <?
-$attrs = $this->model->attributes();
+$attrs = $this->data[0]->attributes();
 ?>
 <a href="/manager/product/add">Add Product</a>
 <table class="table table-bordered table-responsive">
@@ -26,3 +26,10 @@ $attrs = $this->model->attributes();
     <? endforeach; ?>
     </tbody>
 </table>
+
+<div class="import">
+    <form action="/manager/product/import" method="post" enctype="multipart/form-data">
+        <input type="file" name="import">
+        <input type="submit" value="Import products">
+    </form>
+</div>

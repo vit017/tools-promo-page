@@ -14,10 +14,6 @@ class ProductView extends View
     public $layout = 'promo';
     public $data = null;
     public $view = '';
-    public $title = '';
-
-    public $model = '';
-    public $controller = '';
 
     public function __construct($view, $data)
     {

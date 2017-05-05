@@ -1,13 +1,11 @@
 <?php
 
 
-
 namespace V_Corp\base\db;
 
 
-class Mysqli {
-
-
+class Mysqli
+{
     private $_db_host = 'localhost';
     private $_db_user = 'corpcenter';
     private $_user_pswd = '12345678';
@@ -15,8 +13,6 @@ class Mysqli {
 
     private $_connect = null;
     private static $_instance = null;
-
-
 
 
     private function __construct()
@@ -36,12 +32,21 @@ class Mysqli {
         //self::close();
     }
 
-    public static function close()
+    public function open()
     {
-        if (null !== self::$_instance) {
-            self::$_instance->_connect->close();
-            self::$_instance = null;
+        self::instance();
+    }
+
+    public function close()
+    {
+        if (is_object($this->connection())) {
+            $this->connection()->close();
         }
+    }
+
+    public function connection()
+    {
+        return $this->_connect;
     }
 
     public static function instance()
@@ -57,11 +62,10 @@ class Mysqli {
     {
         $db_result = self::$_instance->_connect->query($query);
         if (self::$_instance->_connect->errno) {
-            throw new \mysqli_sql_exception(self::$_instance->_connect->error);
+            //throw new \mysqli_sql_exception(self::$_instance->_connect->error);
         }
         return $db_result;
     }
-
 
 
 }

@@ -13,73 +13,57 @@ class PromoController extends Controller
 {
 
 
+    public static function show($action)
+    {
+        if (method_exists(static::class, $action)) {
+            return call_user_func([static::class, $action]);
+        }
+    }
+
     public static function index()
     {
         $models = PromoModel::findAll();
-        $view = new PromoView('index', $models);
-        $view->title = 'Promo Pages';
-        $view->model = new PromoModel();
-        $view->controller = new self();
 
-        $view->render();
+        (new PromoView('index', $models))->render();
     }
 
     public static function delete()
     {
-        $id = (int)$_GET['id'];
-
-        if ($model = PromoModel::find($id)) {
+        if ($model = PromoModel::find((int)$_GET['id'])) {
             $model->delete();
         }
 
         self::redirect('/manager/');
     }
 
-    public static function add()
+    protected static function post($id = 0)
     {
-
+        $model = ($id > 0) ? PromoModel::find($id) : new PromoModel();
         if (is_array($_POST) && count($_POST)) {
-            $model = new PromoModel();
             $model->load($_POST);
-            if (!$model->save()) {
-                dd($model->getErrors());
+            if ($model->save()) {
+                self::redirect('/manager/');
             }
-
-            self::redirect('/manager/');
         }
 
-        $model = new PromoModel();
-        $view = new PromoView('update', $model);
-        $view->title = 'Create Promo';
-        $view->model = $model;
-        $view->controller = new self();
+        return $model;
+    }
 
-        $view->render();
+    public static function add()
+    {
+        self::save();
     }
 
     public static function update()
     {
-        $id = (int)$_GET['id'];
+        self::save((int)$_GET['id']);
+    }
 
-        if (is_array($_POST) && count($_POST)) {
-            $model = PromoModel::find($id);
-            $model->load($_POST);
-            if ($model->save()) {
-                self::redirect('/manager/');
-            } else {
-                $view = new PromoView('update', $model);
-            }
-        } elseif ($model = PromoModel::find($id)) {
-            $view = new PromoView('update', $model);
-        } else {
-            throw new NotFoundHttpException('Promo Page #' . $id . ' not found');
-        }
+    protected static function save($id = 0)
+    {
+        $model = self::post($id);
 
-        $view->title = 'Update Promo#' . $model->id . ' "' . $model->name . '"';
-        $view->model = $model;
-        $view->controller = new self();
-
-        $view->render();
+        (new PromoView('update', $model))->render();
     }
 
     public static function redirect($url)

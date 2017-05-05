@@ -9,7 +9,22 @@ use V_Corp\base\db\ModelMysqli;
 class Model extends ModelMysqli
 {
 
+    public function validate() {
+        return true;
+    }
 
+    public static function insertAll(array $models) {
+        foreach ($models as $i => $model) {
+            if (!$model->validate()) {
+                array_splice($models, $i, 1);
+            }
+            else {
+                $model->beforeSave();
+            }
+        }
+
+        return parent::insertAll($models);
+    }
 
     public function save()
     {

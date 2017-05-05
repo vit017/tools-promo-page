@@ -1,35 +1,38 @@
 <?php
 use V_Corp\base\Html;
 ?>
-
+<?
+$model = $this->data;
+$errors = $model->getErrors() ?>
+<? if (count($errors)): ?>
+    <? foreach ($errors as $error): ?>
+        <p class="form-error"><?= $error?></p>
+    <? endforeach; ?>
+<? endif; ?>
 <form action="" method="post" enctype="multipart/form-data">
-    <? $types = $this->model->types() ?>
-    <? $attributes = $this->model->attributes() ?>
-    <? $errors = $this->model->getErrors() ?>
-    <? foreach ($this->data as $key => $data) {
-        $error = array_key_exists($key, $errors) ? 'has-error' : '';
-        echo '<div class="form-group '.$error.'">';
+    <? $types = $model->types() ?>
+    <? $attributes = $model->attributes() ?>
+    <? $errors = $model->getErrors() ?>
+    <? foreach ($attributes as $key => $label) {
+        echo '<div class="form-group">';
         switch ($types[$key]) {
             case 'noedit':
-                echo Html::noedit($attributes[$key], $key, $data);
+                echo Html::noedit($label, $key, $model->$key);
                 break;
             case 'raw':
-                $data = htmlspecialchars($data);
-                echo Html::raw($attributes[$key], $key, $data);
+                $model->$key = htmlspecialchars($model->$key);
+                echo Html::raw($label, $key, $model->$key);
                 break;
             case 'date':
-                echo Html::date($attributes[$key], $key, $data);
+                echo Html::date($label, $key, $model->$key);
                 break;
             case 'text':
-                $data = htmlspecialchars($data);
-                echo Html::text($attributes[$key], $key, $data);
+                $model->$key = htmlspecialchars($model->$key);
+                echo Html::text($label, $key, $model->$key);
                 break;
-        }
-        if (array_key_exists($key, $errors)) {
-            echo '<div class="help-block">'.$errors[$key].'</div>';
         }
         echo '</div>';
     }
     ?>
-    <input class="btn btn-default" id="save-promo" type="submit" value="Submit">
+    <input class="btn btn-default" id="save" type="submit" value="Submit">
 </form>
