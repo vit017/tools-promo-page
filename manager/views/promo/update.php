@@ -1,13 +1,14 @@
 <?php
 use V_Corp\base\Html;
-
 ?>
 
 <form action="" method="post" enctype="multipart/form-data">
     <? $types = $this->model->types() ?>
     <? $attributes = $this->model->attributes() ?>
+    <? $errors = $this->model->getErrors() ?>
     <? foreach ($this->data as $key => $data) {
-        echo '<div class="form-group">';
+        $error = array_key_exists($key, $errors) ? 'has-error' : '';
+        echo '<div class="form-group '.$error.'">';
         switch ($types[$key]) {
             case 'noedit':
                 echo Html::noedit($attributes[$key], $key, $data);
@@ -23,6 +24,9 @@ use V_Corp\base\Html;
                 $data = htmlspecialchars($data);
                 echo Html::text($attributes[$key], $key, $data);
                 break;
+        }
+        if (array_key_exists($key, $errors)) {
+            echo '<div class="help-block">'.$errors[$key].'</div>';
         }
         echo '</div>';
     }

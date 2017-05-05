@@ -35,12 +35,16 @@ class PromoController extends Controller
         self::redirect('/manager/');
     }
 
-    public static function add() {
+    public static function add()
+    {
 
         if (is_array($_POST) && count($_POST)) {
             $model = new PromoModel();
             $model->load($_POST);
-            $model->save();
+            if (!$model->save()) {
+                dd($model->getErrors());
+            }
+
             self::redirect('/manager/');
         }
 
@@ -60,20 +64,22 @@ class PromoController extends Controller
         if (is_array($_POST) && count($_POST)) {
             $model = PromoModel::find($id);
             $model->load($_POST);
-            $model->save();
-            self::redirect('/manager/');
-        }
-
-        if ($model = PromoModel::find($id)) {
+            if ($model->save()) {
+                self::redirect('/manager/');
+            } else {
+                $view = new PromoView('update', $model);
+            }
+        } elseif ($model = PromoModel::find($id)) {
             $view = new PromoView('update', $model);
-            $view->title = 'Update Promo#' . $model->id . ' "' . $model->name . '"';
-            $view->model = $model;
-            $view->controller = new self();
-
-            $view->render();
         } else {
             throw new NotFoundHttpException('Promo Page #' . $id . ' not found');
         }
+
+        $view->title = 'Update Promo#' . $model->id . ' "' . $model->name . '"';
+        $view->model = $model;
+        $view->controller = new self();
+
+        $view->render();
     }
 
     public static function redirect($url)

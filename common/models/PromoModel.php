@@ -19,10 +19,22 @@ class PromoModel extends Model
 
     public $products;
 
+    protected $_errors = [];
+
 
     public function __toString()
     {
         return $this->name . ' #' . $this->id;
+    }
+
+    public function addError($attr, $msg, $value = '')
+    {
+        $this->_errors[$attr] = $value ? $msg . ' - ' . $value : $msg;
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 
     public function attributes()
@@ -58,13 +70,36 @@ class PromoModel extends Model
 
     public function values()
     {
-        $types = $this->types();
         $res = [];
         foreach ($this->attributes() as $key => $val) {
             $res[] = $this->$key;
         }
 
         return $res;
+    }
+
+    public function rules()
+    {
+        return [
+            //$attr => [required, regexp, error msg]
+            'url' => [true, '/^\w+$/', 'Only latin symbols, underscores, digits'],
+            'name' => [true, '/^[\wа-яёА-Я ]+$/'],
+        ];
+    }
+
+    public function validate()
+    {
+        $rules = $this->rules();
+        foreach ($rules as $attr => $rule) {
+            if ($rule[0] && ('' === trim($this->$attr))) {
+                $this->addError($attr, $attr . ' is required');
+            } elseif ($rule[1] && !preg_match($rule[1], $this->$attr)) {
+                $msg = $rule[2] ?: 'wrong value of field ' . $attr;
+                $this->addError($attr, $msg);
+            }
+        }
+
+        return !count($this->_errors);
     }
 
     public static function tableName()

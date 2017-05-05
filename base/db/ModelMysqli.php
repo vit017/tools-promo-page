@@ -159,16 +159,6 @@ class ModelMysqli
         return self::driver()->query($query);
     }
 
-    public function save()
-    {
-        $this->beforeSave();
-        if ($this->id) {
-            return $this->update();
-        } else {
-            return $this->insert();
-        }
-    }
-
     public static function driver()
     {
         return Mysqli::instance();

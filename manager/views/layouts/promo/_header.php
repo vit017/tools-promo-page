@@ -12,7 +12,7 @@
     <title><?= $this->title?></title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="/css/sb-admin.css" rel="stylesheet">
