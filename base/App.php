@@ -54,12 +54,10 @@ class App
         self::$_title = (string)$title;
     }
 
-    public function request($request)
+    public function request($handler)
     {
-        $handler = $request[0];
-        $params = $request[1];
         try {
-            call_user_func_array($handler, $params);
+            call_user_func($handler, []);
         }
         catch (RouteException $e) {
             dd($e);

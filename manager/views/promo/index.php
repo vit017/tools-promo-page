@@ -1,9 +1,11 @@
+<a href="/manager/promo/add">Add Promo</a>
 <?
+if (!$this->data) return;
+
 $attrs = $this->data[0]->attributes();
 unset($attrs['header']);
 unset($attrs['footer']);
 ?>
-<a href="/manager/promo/add">Add Promo</a>
 <table class="table table-bordered table-responsive">
     <thead>
     <? foreach ($attrs as $key => $attr): ?>

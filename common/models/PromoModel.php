@@ -104,7 +104,7 @@ class PromoModel extends Model
 
     public static function tableName()
     {
-        return 'corp_promo';
+        return 'corp_page';
     }
 
 

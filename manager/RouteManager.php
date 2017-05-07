@@ -14,13 +14,13 @@ class RouteManager
     protected $urls = [
         'get' => [
             '/manager/' => [PromoController::class, 'index'],
-            '/manager/promo/(\\w+)' => [PromoController::class, 'show'],
+            '/manager/promo/(\\w+)' => [PromoController::class],
             '/manager/products' => [ProductController::class, 'index'],
-            '/manager/product/(\\w+)' => [ProductController::class, 'show']
+            '/manager/product/(\\w+)' => [ProductController::class]
         ],
         'post' => [
-            '/manager/promo/(\\w+)' => [PromoController::class, 'show'],
-            '/manager/product/(\\w+)' => [ProductController::class, 'show']
+            '/manager/promo/(\\w+)' => [PromoController::class],
+            '/manager/product/(\\w+)' => [ProductController::class]
         ]
     ];
 
@@ -41,7 +41,11 @@ class RouteManager
 
         foreach ($this->urls[$method] as $url => $handler) {
             if ($matches = $this->matchUrl($url)) {
-                return [$handler, array_slice($matches, 1)];
+                if (2 === count($handler)) {
+                    return $handler;
+                }
+
+                return [$handler[0], $matches[1]];
             }
         }
 

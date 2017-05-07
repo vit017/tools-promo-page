@@ -22,13 +22,16 @@ $errors = $model->getErrors() ?>
             case 'raw':
                 $model->$key = htmlspecialchars($model->$key);
                 echo Html::raw($label, $key, $model->$key);
+                if (array_key_exists($key, $errors)) echo $errors[$key];
                 break;
             case 'date':
                 echo Html::date($label, $key, $model->$key);
+                if (array_key_exists($key, $errors)) echo $errors[$key];
                 break;
             case 'text':
                 $model->$key = htmlspecialchars($model->$key);
                 echo Html::text($label, $key, $model->$key);
+                if (array_key_exists($key, $errors)) echo $errors[$key];
                 break;
         }
         echo '</div>';
