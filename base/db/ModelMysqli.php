@@ -106,6 +106,37 @@ class ModelMysqli
         return $models;
     }
 
+    public static function count()
+    {
+        $query = 'SELECT COUNT(*) as count FROM ' . static::tableName();
+        $db_result = self::driver()->query($query);
+        if (!$db_result->num_rows) {
+            return null;
+        }
+
+        $row = $db_result->fetch_assoc();
+
+        return $row['count'];
+    }
+
+    public static function pageAll($offset, $limit)
+    {
+        $query = 'SELECT * FROM ' . static::tableName() . ' ORDER BY ' . static::$defaultSort . ' LIMIT ' . $offset . ', ' . $limit;
+        $db_result = self::driver()->query($query);
+        if (!$db_result->num_rows) {
+            return null;
+        }
+
+        $models = [];
+        while ($row = $db_result->fetch_assoc()) {
+            $model = new static();
+            $models[] = $model->load($row);
+            $model->afterFind();
+        }
+
+        return $models;
+    }
+
     public static function findAll()
     {
         $query = 'SELECT * FROM ' . static::tableName() . ' ORDER BY ' . static::$defaultSort;
@@ -187,7 +218,7 @@ class ModelMysqli
             foreach ($values as $i => $value) {
                 $tmpValues[] = '\'' . $value . '\'';
             }
-            $aValues[] = '('.implode(',', $tmpValues).')';
+            $aValues[] = '(' . implode(',', $tmpValues) . ')';
         }
         $sValues = implode(',', $aValues);
 

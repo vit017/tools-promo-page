@@ -28,8 +28,7 @@ class App
 
     }
 
-    public static function init()
-    {
+    public static function instance() {
         if (null === self::$_instance) {
             self::$_instance = new self();
         }

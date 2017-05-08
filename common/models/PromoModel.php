@@ -107,12 +107,6 @@ class PromoModel extends Model
         return 'corp_page';
     }
 
-
-    public static function findAll()
-    {
-        return parent::findAll();
-    }
-
     public static function find(int $id)
     {
         return parent::find($id);

@@ -21,11 +21,13 @@ unset($attrs['footer']);
             <? endforeach; ?>
             <td class="table__edit">
                 <a href="/manager/promo/update?id=<?= $model->id ?>"><span
-                        class="glyphicon glyphicon-pencil"></span></a>
+                            class="glyphicon glyphicon-pencil"></span></a>
                 <a href="/manager/promo/delete?id=<?= $model->id ?>"><span
-                        class="glyphicon glyphicon-remove"></span></a>
+                            class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>
     <? endforeach; ?>
     </tbody>
 </table>
+
+<?$this->pagination->show()?>

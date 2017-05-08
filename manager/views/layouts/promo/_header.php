@@ -1,3 +1,4 @@
+<? use V_Corp\base\App; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?= $this->title?></title>
+    <title><?= App::instance()->title() ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
@@ -52,12 +53,13 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/manager/">V_Corp Admin</a>
+            <a class="navbar-brand" target="_blank" href="/">Site</a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b
-                        class="caret"></b></a>
+                            class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -100,7 +102,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        <?= $this->title?>
+                        <?= App::instance()->title() ?>
                     </h1>
                 </div>
             </div>

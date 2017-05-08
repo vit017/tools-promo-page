@@ -3,28 +3,31 @@
 
 namespace V_Corp\manager\controllers;
 
+use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
 use V_Corp\base\exceptions\NotFoundHttpException;
 use V_Corp\common\models\PromoModel;
+use V_Corp\manager\Pagination;
 use V_Corp\manager\views\PromoView;
 
 
 class PromoController extends Controller
 {
 
-
-    public static function show($action)
-    {
-        if (method_exists(static::class, $action)) {
-            return call_user_func([static::class, $action]);
-        }
-    }
+    protected static $numPages = 10;
 
     public static function index()
     {
-        $models = PromoModel::findAll();
+        App::instance()->title('Promo pages');
 
-        (new PromoView('index', $models))->render();
+        $page = ((int)$_GET['page'] > 0) ? ((int)$_GET['page'] - 1) : 0;
+        $offset = self::$numPages * $page;
+        $models = PromoModel::pageAll($offset, self::$numPages);
+
+        $view = new PromoView('index', $models);
+        $view->pagination = new Pagination(PromoModel::count(), self::$numPages, $page);
+
+        $view->render();
     }
 
     public static function delete()
