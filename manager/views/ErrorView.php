@@ -31,6 +31,4 @@ class ErrorView
         include_once $this->view_path . '/' . $this->view . '.php';
         include_once $this->layout_path . '/' . $this->layout . '/_footer.php';
     }
-
-
 }

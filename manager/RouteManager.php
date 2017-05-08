@@ -3,13 +3,17 @@
 
 namespace V_Corp\manager;
 
+use V_Corp\base\Route;
 use V_Corp\manager\controllers\PromoController;
 use V_Corp\manager\controllers\ProductController;
 use V_Corp\manager\views\ErrorView;
 
 
-class RouteManager
+class RouteManager extends Route
 {
+
+    protected static $errorView = ErrorView::class;
+    protected $method = [];
 
     protected $urls = [
         'get' => [
@@ -24,22 +28,8 @@ class RouteManager
         ]
     ];
 
-    protected function matchUrl($url) {
-        $parse_url = parse_url($_SERVER['REQUEST_URI']);
-        preg_match('#^'.$url.'$#', $parse_url['path'], $matches);
-
-        return (is_array($matches) && count($matches)) ? $matches : false;
-    }
-
-
-    public function handle()
-    {
-        $method = strtolower($_SERVER['REQUEST_METHOD']);
-        if (!array_key_exists($method, $this->urls)) {
-            return null;
-        }
-
-        foreach ($this->urls[$method] as $url => $handler) {
+    protected function matches() {
+        foreach ($this->methods as $url => $handler) {
             if ($matches = $this->matchUrl($url)) {
                 if (2 === count($handler)) {
                     return ['handler' => $handler];
@@ -49,7 +39,11 @@ class RouteManager
             }
         }
 
-        return ['handler' => [(new ErrorView('main', 404, 'Page Not Found')), 'render']];
+        return null;
+    }
+
+    public function result($matches) {
+        return ['handler' => $matches['handler']];
     }
 
 }
