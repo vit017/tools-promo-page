@@ -5,13 +5,11 @@ namespace V_Corp\front;
 
 use V_Corp\front\controllers\PromoController;
 use V_Corp\front\controllers\ProductController;
-use V_Corp\base\Router;
 use V_Corp\front\views\ErrorView;
 
 
 class RouteSite
 {
-
     protected $urls = [
         'get' => [
             '/' => [PromoController::class, 'index'],

@@ -3,26 +3,31 @@
 
 namespace V_Corp\manager\controllers;
 
+use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
-use V_Corp\base\exceptions\NotFoundHttpException;
 use V_Corp\common\models\ProductModel;
 use V_Corp\manager\views\ProductView;
+use V_Corp\manager\Pagination;
 
 
 class ProductController extends Controller
 {
 
-    public static function show($action)
-    {
-        if (method_exists(static::class, $action)) {
-            return call_user_func([static::class, $action]);
-        }
-    }
+    protected static $flash = [];
+    protected static $numPages = 10;
 
     public static function index()
     {
-        $models = ProductModel::findAll();
-        (new ProductView('index', $models))->render();
+        App::instance()->title('Products');
+        $page = ((int)$_GET['page'] > 0) ? ((int)$_GET['page'] - 1) : 0;
+        $offset = self::$numPages * $page;
+        $models = ProductModel::pageAll($offset, self::$numPages);
+
+        $view = new ProductView('index', $models);
+        $view->pagination = new Pagination(ProductModel::count(), self::$numPages, $page);
+        $view->controller = self::class;
+
+        $view->render();
     }
 
     public static function delete()
@@ -51,11 +56,13 @@ class ProductController extends Controller
 
     public static function add()
     {
+        App::instance()->title('Add Product');
         self::save();
     }
 
     public static function update()
     {
+        App::instance()->title('Update Product #'.(int)$_GET['id']);
         self::save((int)$_GET['id']);
     }
 
@@ -92,7 +99,10 @@ class ProductController extends Controller
         }
         fclose($handle);
 
-        ProductModel::insertAll($models);
+        $result = ProductModel::insertAll($models);
+        if ($result) {
+            self::flash('import', 'Inserted '.$result['count'].' rows');
+        }
 
         self::redirect('/manager/products');
     }

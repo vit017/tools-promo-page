@@ -21,12 +21,11 @@ class ProductView extends View
         $this->data = $data;
     }
 
-
     public function render()
     {
-        include_once $this->layout_path.'/'.$this->layout.'/_header.php';
-        include_once $this->view_path.'/'.$this->view.'.php';
-        include_once $this->layout_path.'/'.$this->layout.'/_footer.php';
+        include_once $this->layout_path . '/' . $this->layout . '/_header.php';
+        include_once $this->view_path . '/' . $this->view . '.php';
+        include_once $this->layout_path . '/' . $this->layout . '/_footer.php';
     }
 
 

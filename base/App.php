@@ -11,6 +11,7 @@ class App
 {
 
     public $homeUrl = '/';
+    public $manageUrl = '/manager/';
 
     private static $_title = '';
     private static $_instance = null;
@@ -18,6 +19,7 @@ class App
 
     private function __construct()
     {
+        session_start();
         $this->db()->open();
     }
 

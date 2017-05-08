@@ -1,7 +1,7 @@
 <? if ($this->count): ?>
     <nav aria-label="Page navigation" class="text-center">
         <ul class="pagination">
-            <? for ($i = 1; $i <= $this->count; $i++): ?>
+            <? for ($i = 1; $i <= ceil($this->count / $this->countPage); $i++): ?>
                 <? if ($this->active === $i): ?>
                     <li class="page-item active">
                         <span class="page-link"><?= $i ?></span>

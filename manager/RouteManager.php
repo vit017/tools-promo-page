@@ -5,7 +5,6 @@ namespace V_Corp\manager;
 
 use V_Corp\manager\controllers\PromoController;
 use V_Corp\manager\controllers\ProductController;
-use V_Corp\base\Router;
 
 
 class RouteManager

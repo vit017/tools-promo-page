@@ -3,35 +3,48 @@ use V_Corp\base\Html;
 ?>
 <?
 $model = $this->data;
-$errors = $model->getErrors() ?>
+$types = $model->types();
+$attributes = $model->attributes();
+$errors = $model->getErrors();
+?>
 <? if (count($errors)): ?>
-    <? foreach ($errors as $error): ?>
-        <p class="form-error"><?= $error?></p>
+    <?// only db errors?>
+    <? foreach ($errors as $key => $error): ?>
+        <? if (array_key_exists($key, $attributes)) continue; ?>
+        <p class="form-error"><?= $error ?></p>
     <? endforeach; ?>
 <? endif; ?>
 <form action="" method="post" enctype="multipart/form-data">
-    <? $types = $model->types() ?>
-    <? $attributes = $model->attributes() ?>
-    <? $errors = $model->getErrors() ?>
     <? foreach ($attributes as $key => $label) {
-        echo '<div class="form-group">';
+        $class = array_key_exists($key, $errors) ? 'has-error' : '';
+        echo '<div class="form-group ' . $class . '">';
         switch ($types[$key]) {
             case 'noedit':
-                echo Html::noedit($label, $key, $model->$key);
+                echo Html::noedit($label, $model->$key);
                 break;
             case 'raw':
-                $model->$key = htmlspecialchars($model->$key);
                 echo Html::raw($label, $key, $model->$key);
-                if (array_key_exists($key, $errors)) echo $errors[$key];
+                echo array_key_exists($key, $errors)
+                    ?
+                    '<span class="help-block">' . $errors[$key] . '</span>'
+                    : '';
+                break;
                 break;
             case 'date':
                 echo Html::date($label, $key, $model->$key);
-                if (array_key_exists($key, $errors)) echo $errors[$key];
+                echo array_key_exists($key, $errors)
+                    ?
+                    '<span class="help-block">' . $errors[$key] . '</span>'
+                    : '';
+                break;
                 break;
             case 'text':
-                $model->$key = htmlspecialchars($model->$key);
                 echo Html::text($label, $key, $model->$key);
-                if (array_key_exists($key, $errors)) echo $errors[$key];
+                echo array_key_exists($key, $errors)
+                    ?
+                    '<span class="help-block">' . $errors[$key] . '</span>'
+                    : '';
+                break;
                 break;
         }
         echo '</div>';

@@ -249,7 +249,16 @@ class ModelMysqli
         $sValues = implode(',', $aValues);
 
         $query = 'INSERT INTO `' . static::tableName() . '` (' . $sKeys . ') VALUES ' . $sValues;
-        return self::driver()->query($query);
+        $db_result = self::driver()->query($query);
+
+        if (!$db_result) {
+            $result = ['result' => false, 'message' => self::driver()->connection()->error];
+        }
+        else {
+            $result = ['result' => true, 'count' => self::driver()->connection()->affected_rows];
+        }
+
+        return $result;
     }
 
     public static function driver()
