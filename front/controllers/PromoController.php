@@ -3,24 +3,29 @@
 
 namespace V_Corp\front\controllers;
 
+use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
-use V_Corp\base\exceptions\NotFoundHttpException;
 use V_Corp\common\models\PromoModel;
 use V_Corp\common\models\ProductModel;
+use V_Corp\front\Pagination;
 use V_Corp\front\views\PromoView;
 
 
 class PromoController extends Controller
 {
 
+    protected static $numPages = 10;
 
     public static function index()
     {
-        $models = PromoModel::findAllByAndCondition(['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
+        App::instance()->title('Promo pages');
+
+        $page = ((int)$_GET['page'] > 0) ? ((int)$_GET['page'] - 1) : 0;
+        $offset = self::$numPages * $page;
+        $models = PromoModel::pageAllByAndCondition($offset, self::$numPages, ['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
+
         $view = new PromoView('index', $models);
-        $view->title = 'Promo Pages';
-        $view->model = new PromoModel();
-        $view->controller = new self();
+        $view->pagination = new Pagination(PromoModel::count(), self::$numPages, $page);
 
         $view->render();
     }
@@ -30,9 +35,7 @@ class PromoController extends Controller
         $model = PromoModel::findByAndCondition(['url', $url, '='], ['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
         $model->products = ProductModel::findAllByAttr('page', $model->id, '=');
         $view = new PromoView('show', $model);
-        $view->title = $model->name;
-        $view->model = $model;
-        $view->controller = new self();
+        App::instance()->title($model->name);
 
         $view->render();
     }

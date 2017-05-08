@@ -61,6 +61,32 @@ class ModelMysqli
         return $models;
     }
 
+    public static function pageAllByAndCondition()
+    {
+        $args = func_get_args();
+        $argsWhere = array_slice($args, 2);
+        foreach ($argsWhere as $i => $arg) {
+            $where[] = '`' . $arg[0] . '`' . $arg[2] . '\'' . $arg[1] . '\'';
+        }
+        $sWhere = implode(' AND ', $where);
+
+        $query = 'SELECT * FROM ' . static::tableName() . ' WHERE ' . $sWhere . ' ORDER BY ' . static::$defaultSort . ' LIMIT '.$args[0].', '.$args[1];
+
+        $db_result = self::driver()->query($query);
+        if (!$db_result->num_rows) {
+            return null;
+        }
+
+        $models = [];
+        while ($row = $db_result->fetch_assoc()) {
+            $model = new static();
+            $models[] = $model->load($row);
+            $model->afterFind();
+        }
+
+        return $models;
+    }
+
     public static function findByAndCondition()
     {
         $args = func_get_args();

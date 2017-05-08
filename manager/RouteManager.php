@@ -42,10 +42,10 @@ class RouteManager
         foreach ($this->urls[$method] as $url => $handler) {
             if ($matches = $this->matchUrl($url)) {
                 if (2 === count($handler)) {
-                    return $handler;
+                    return ['handler' => $handler];
                 }
 
-                return [$handler[0], $matches[1]];
+                return ['handler' => [$handler[0], $matches[1]]];
             }
         }
 

@@ -1,3 +1,4 @@
+<? use V_Corp\base\App; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?= $this->title?></title>
+    <title><?= App::instance()->title(); ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/front/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +34,8 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -58,7 +60,7 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p class="lead"><?= $this->title?></p>
+            <p class="lead"><?= App::instance()->title(); ?></p>
         </div>
 
         <div class="col-md-9">

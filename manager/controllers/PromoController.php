@@ -5,7 +5,6 @@ namespace V_Corp\manager\controllers;
 
 use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
-use V_Corp\base\exceptions\NotFoundHttpException;
 use V_Corp\common\models\PromoModel;
 use V_Corp\manager\Pagination;
 use V_Corp\manager\views\PromoView;
@@ -54,11 +53,13 @@ class PromoController extends Controller
 
     public static function add()
     {
+        App::instance()->title('Add Promo');
         self::save();
     }
 
     public static function update()
     {
+        App::instance()->title('Update Promo #'.(int)$_GET['id']);
         self::save((int)$_GET['id']);
     }
 

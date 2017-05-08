@@ -4,12 +4,12 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/functions.php';
 
 
+use V_Corp\base\App;
+use V_Corp\front\RouteSite;
 
-use V_Corp\front\controllers\PromoController;
-use V_Corp\base\Router;
 
+$app = App::instance();
 
-Router::get('/', [PromoController::class, 'index']);
-Router::get('/promo/(\\w+)', [PromoController::class, 'show']);
+$app->request((new RouteSite())->handle());
 
-//throw new \V_Corp\base\exceptions\NotFoundHttpException('');
+$app->terminate();
