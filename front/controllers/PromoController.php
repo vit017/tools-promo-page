@@ -5,6 +5,7 @@ namespace V_Corp\front\controllers;
 
 use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
+use V_Corp\front\views\ErrorView;
 use V_Corp\common\models\PromoModel;
 use V_Corp\common\models\ProductModel;
 use V_Corp\front\Pagination;
@@ -33,9 +34,14 @@ class PromoController extends Controller
     public static function show($url)
     {
         $model = PromoModel::findByAndCondition(['url', $url, '='], ['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
-        $model->products = ProductModel::findAllByAttr('page', $model->id, '=');
-        $view = new PromoView('show', $model);
-        App::instance()->title($model->name);
+        if ($model) {
+            $model->products = ProductModel::findAllByAttr('page', $model->id, '=');
+            $view = new PromoView('show', $model);
+            App::instance()->title($model->name);
+        }
+        else {
+            $view = new ErrorView('main', 400, 'Bad request');
+        }
 
         $view->render();
     }

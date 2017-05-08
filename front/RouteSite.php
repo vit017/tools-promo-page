@@ -6,6 +6,7 @@ namespace V_Corp\front;
 use V_Corp\front\controllers\PromoController;
 use V_Corp\front\controllers\ProductController;
 use V_Corp\base\Router;
+use V_Corp\front\views\ErrorView;
 
 
 class RouteSite
@@ -39,7 +40,7 @@ class RouteSite
             }
         }
 
-        return null;
+        return ['handler' => [(new ErrorView('main', 404, 'Page Not Found')), 'render']];
     }
 
 }

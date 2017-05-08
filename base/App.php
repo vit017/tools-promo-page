@@ -10,6 +10,8 @@ use V_Corp\base\exceptions\RouteException;
 class App
 {
 
+    public $homeUrl = '/';
+
     private static $_title = '';
     private static $_instance = null;
 
