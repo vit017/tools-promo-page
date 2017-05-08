@@ -6,71 +6,40 @@ namespace V_Corp\manager\controllers;
 use V_Corp\base\App;
 use V_Corp\common\models\ProductModel;
 use V_Corp\manager\views\ProductView;
-use V_Corp\manager\views\ErrorView;
 
 class ProductController extends ManageController
 {
 
     protected static $flash = [];
     protected static $numPages = 10;
-    protected static $title = 'Products';
     protected static $indexUrl = '/manager/products';
 
     protected static $model = ProductModel::class;
     protected static $view = ProductView::class;
 
 
-    protected static function post($id = 0)
+    public static function index()
     {
-        $numArgs = func_num_args();
-        if (!$numArgs) {
-            $model = new ProductModel();
-        } elseif ($numArgs && $id) {
-            $model = ProductModel::find($id);
-        }
-
-        if (!$model) {
-            return null;
-        }
-
-        if (is_array($_POST) && count($_POST)) {
-            $model->load($_POST);
-            if ($model->save()) {
-                self::redirect('/manager/products');
-            }
-        }
-
-        return $model;
-    }
-
-    protected static function save($id = 0)
-    {
-        $model = func_num_args() ? self::post($id) : self::post();
-        if (!$model) {
-            $view = new ErrorView('main', 400, 'Bad request');
-        } else {
-            $view = new ProductView('update', $model);
-        }
-
-        $view->render();
+        App::instance()->title('Products');
+        parent::index();
     }
 
     public static function add()
     {
         App::instance()->title('Add Product');
-        self::save();
+        parent::save();
     }
 
     public static function update()
     {
         App::instance()->title('Update Product #'.(int)$_GET['id']);
-        self::save((int)$_GET['id']);
+        parent::save((int)$_GET['id']);
     }
 
     public static function import()
     {
         if (!$_FILES['import']['tmp_name']) {
-            self::redirect('/manager/products');
+            self::redirect(self::$indexUrl);
         }
         $fName = $_FILES['import']['tmp_name'];
         $arTitle = [];
@@ -85,7 +54,7 @@ class ProductController extends ManageController
                 foreach ($data as $i => $val) {
                     $arData[$k][$arTitle[$i]] = $val;
                 }
-                $model = new ProductModel();
+                $model = new self::$model();
                 $model->load($arData[$k]);
                 $models[$k] = $model;
                 $k++;
@@ -93,18 +62,12 @@ class ProductController extends ManageController
         }
         fclose($handle);
 
-        $result = ProductModel::insertAll($models);
+        $result = call_user_func_array([self::$model, 'insertAll'], [$models]);
         if ($result) {
             self::flash('import', 'Inserted '.$result['count'].' rows');
         }
 
-        self::redirect('/manager/products');
-    }
-
-    public static function redirect($url)
-    {
-        header('Location: ' . $url);
-        exit();
+        self::redirect(self::$indexUrl);
     }
 
 }
