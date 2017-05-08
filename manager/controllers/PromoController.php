@@ -8,6 +8,7 @@ use V_Corp\base\controllers\Controller;
 use V_Corp\common\models\PromoModel;
 use V_Corp\manager\Pagination;
 use V_Corp\manager\views\PromoView;
+use V_Corp\manager\views\ErrorView;
 
 
 class PromoController extends Controller
@@ -40,7 +41,17 @@ class PromoController extends Controller
 
     protected static function post($id = 0)
     {
-        $model = ($id > 0) ? PromoModel::find($id) : new PromoModel();
+        $numArgs = func_num_args();
+        if (!$numArgs) {
+            $model = new PromoModel();
+        } elseif ($numArgs && $id) {
+            $model = PromoModel::find($id);
+        }
+
+        if (!$model) {
+            return null;
+        }
+
         if (is_array($_POST) && count($_POST)) {
             $model->load($_POST);
             if ($model->save()) {
@@ -51,6 +62,18 @@ class PromoController extends Controller
         return $model;
     }
 
+    protected static function save($id = 0)
+    {
+        $model = func_num_args() ? self::post($id) : self::post();
+        if (!$model) {
+            $view = new ErrorView('main', 400, 'Bad request');
+        } else {
+            $view = new PromoView('update', $model);
+        }
+
+        $view->render();
+    }
+
     public static function add()
     {
         App::instance()->title('Add Promo');
@@ -59,15 +82,8 @@ class PromoController extends Controller
 
     public static function update()
     {
-        App::instance()->title('Update Promo #'.(int)$_GET['id']);
+        App::instance()->title('Update Promo #' . (int)$_GET['id']);
         self::save((int)$_GET['id']);
-    }
-
-    protected static function save($id = 0)
-    {
-        $model = self::post($id);
-
-        (new PromoView('update', $model))->render();
     }
 
     public static function redirect($url)

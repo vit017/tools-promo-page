@@ -5,6 +5,7 @@ namespace V_Corp\manager;
 
 use V_Corp\manager\controllers\PromoController;
 use V_Corp\manager\controllers\ProductController;
+use V_Corp\manager\views\ErrorView;
 
 
 class RouteManager
@@ -48,7 +49,7 @@ class RouteManager
             }
         }
 
-        return null;
+        return ['handler' => [(new ErrorView('main', 404, 'Page Not Found')), 'render']];
     }
 
 }
