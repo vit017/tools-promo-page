@@ -11,15 +11,16 @@ use V_Corp\manager\views\ErrorView;
 class ManageController extends Controller {
 
     protected static $indexUrl = '/manager/';
+    protected static $pageParam = 'page';
 
     public static function index()
     {
-        $page = ((int)$_GET['page'] > 0) ? ((int)$_GET['page'] - 1) : 0;
+        $page = ((int)$_GET[static::$pageParam] > 0) ? ((int)$_GET[static::$pageParam] - 1) : 0;
         $offset = static::$numPages * $page;
         $models = call_user_func_array([static::$model, 'pageAll'], [$offset, static::$numPages]);
 
         $view = new static::$view('index', $models);
-        $view->pagination = new Pagination(call_user_func_array([static::$model, 'count'], [$offset, static::$numPages]), static::$numPages, $page);
+        $view->pagination = new Pagination(call_user_func_array([static::$model, 'count'], [$offset, static::$numPages]), static::$numPages, $page, static::$pageParam);
         $view->controller = static::class;
 
         $view->render();

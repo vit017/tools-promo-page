@@ -10,14 +10,16 @@ class Pagination
     protected $count;
     protected $viewPath;
     protected $view;
+    protected $param;
 
 
 
-    public function __construct($count, $countPage, $current)
+    public function __construct($count, $countPage, $current, $param)
     {
         $this->count = $count;
         $this->countPage = $countPage;
         $this->current = $current;
+        $this->param = $param;
         $this->active = (+$_GET[$this->param] >= 1) ? +$_GET[$this->param] : 1;
     }
 
