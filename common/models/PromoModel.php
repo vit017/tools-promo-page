@@ -9,6 +9,8 @@ use V_Corp\base\models\Model;
 class PromoModel extends Model
 {
 
+    public $primaryKey = 'id';
+
     public $id;
     public $url;
     public $name;
@@ -37,7 +39,7 @@ class PromoModel extends Model
         return $this->_errors;
     }
 
-    public function attributes()
+    public static function attributes()
     {
         return [
             'id' => 'Id',
@@ -50,7 +52,7 @@ class PromoModel extends Model
         ];
     }
 
-    public function types()
+    public static function types()
     {
         return [
             'id' => 'noedit',
@@ -65,20 +67,20 @@ class PromoModel extends Model
 
     public function keys()
     {
-        return array_keys($this->attributes());
+        return array_keys(self::attributes());
     }
 
     public function values()
     {
         $res = [];
-        foreach ($this->attributes() as $key => $val) {
+        foreach (self::attributes() as $key => $val) {
             $res[] = $this->$key;
         }
 
         return $res;
     }
 
-    public function rules()
+    public static function rules()
     {
         return [
             //$attr => [required, regexp, error msg]
@@ -89,7 +91,7 @@ class PromoModel extends Model
 
     public function validate()
     {
-        $rules = $this->rules();
+        $rules = self::rules();
         foreach ($rules as $attr => $rule) {
             if ($rule[0] && ('' === trim($this->$attr))) {
                 $this->addError($attr, $attr . ' is required');
@@ -105,16 +107,6 @@ class PromoModel extends Model
     public static function tableName()
     {
         return 'corp_page';
-    }
-
-    public static function find(int $id)
-    {
-        return parent::find($id);
-    }
-
-    public static function findByAttr($key, $val, $condition)
-    {
-        return parent::findByAttr($key, $val, $condition);
     }
 
     public function afterFind()

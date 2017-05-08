@@ -19,7 +19,7 @@ $errors = $model->getErrors();
 <? endif; ?>
 <form action="" method="post" enctype="multipart/form-data">
     <?
-    $pages = PromoModel::findAll();
+    $pages = PromoModel::findAll([]);
     $arPages = [];
     foreach ($pages as $page) {
         $arPages[$page->id] = ['label' => $page->name, 'value' => $page->id];

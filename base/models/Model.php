@@ -4,9 +4,10 @@
 namespace V_Corp\base\models;
 
 use V_Corp\base\db\ModelMysqli;
+use V_Corp\base\db\MysqliModel;
 
 
-class Model extends ModelMysqli
+class Model extends MysqliModel
 {
 
     public function validate() {

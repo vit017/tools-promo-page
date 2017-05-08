@@ -15,9 +15,9 @@
                     <td><?= $model->$key ?></td>
                 <? endforeach; ?>
                 <td class="table__edit">
-                    <a href="/manager/product/update?id=<?= $model->id ?>"><span
+                    <a href="/manager/product/update?id=<?= $model->{$model->primaryKey} ?>"><span
                                 class="glyphicon glyphicon-pencil"></span></a>
-                    <a href="/manager/product/delete?id=<?= $model->id ?>"><span
+                    <a href="/manager/product/delete?id=<?= $model->{$model->primaryKey} ?>"><span
                                 class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>

@@ -1,4 +1,5 @@
-<? if ($this->count): ?>
+<? $pages = ceil($this->count / $this->countPage); ?>
+<? if ($pages > 1): ?>
     <nav aria-label="Page navigation" class="text-center">
         <ul class="pagination">
             <? for ($i = 1; $i <= $this->count; $i++): ?>

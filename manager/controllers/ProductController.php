@@ -62,9 +62,13 @@ class ProductController extends ManageController
         }
         fclose($handle);
 
-        $result = call_user_func_array([self::$model, 'insertAll'], [$models]);
-        if ($result) {
-            self::flash('import', 'Inserted '.$result['count'].' rows');
+        $insert = call_user_func_array([self::$model, 'insertAll'], [$models]);
+
+        if ($insert['result']) {
+            self::flash('import', 'Inserted '.$insert['count'].' rows');
+        }
+        else {
+            self::flash('import', 'Error: '.$insert['message']);
         }
 
         self::redirect(self::$indexUrl);

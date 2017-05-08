@@ -5,6 +5,7 @@ namespace V_Corp\front\controllers;
 
 use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
+use V_Corp\front\controllers\SiteController;
 use V_Corp\front\views\ErrorView;
 use V_Corp\common\models\PromoModel;
 use V_Corp\common\models\ProductModel;
@@ -12,30 +13,23 @@ use V_Corp\front\Pagination;
 use V_Corp\front\views\PromoView;
 
 
-class PromoController extends Controller
+class PromoController extends SiteController
 {
 
-    protected static $numPages = 10;
+    protected static $flash = [];
+    protected static $countPage = 10;
 
-    public static function index()
-    {
-        App::instance()->title('Promo pages');
-
-        $page = ((int)$_GET['page'] > 0) ? ((int)$_GET['page'] - 1) : 0;
-        $offset = self::$numPages * $page;
-        $models = PromoModel::pageAllByAndCondition($offset, self::$numPages, ['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
-
-        $view = new PromoView('index', $models);
-        $view->pagination = new Pagination(PromoModel::count(), self::$numPages, $page);
-
-        $view->render();
-    }
+    protected static $model = PromoModel::class;
+    protected static $view = PromoView::class;
 
     public static function show($url)
     {
-        $model = PromoModel::findByAndCondition(['url', $url, '='], ['date_show_start', time(), '<'], ['date_show_end', time(), '>']);
+        $now = time();
+        $query['where'] =  ['logic'=>'and', 'condition' => [['url', $url, '='], ['date_show_start', $now, '<'], ['date_show_end', $now, '>']]];
+        $model = call_user_func_array([self::$model, 'find'], [$query]);
         if ($model) {
-            $model->products = ProductModel::findAllByAttr('page', $model->id, '=');
+            $query = ['where' => ['logic' => 'AND', 'condition' => ['page', $model->id, '=']]];
+            $model->products = ProductModel::findAll($query);
             $view = new PromoView('show', $model);
             App::instance()->title($model->name);
         }

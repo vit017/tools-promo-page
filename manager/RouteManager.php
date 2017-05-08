@@ -13,7 +13,7 @@ class RouteManager extends Route
 {
 
     protected static $errorView = ErrorView::class;
-    protected $method = [];
+    protected $methods = [];
 
     protected $urls = [
         'get' => [

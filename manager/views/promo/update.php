@@ -9,10 +9,12 @@ $errors = $model->getErrors();
 ?>
 <? if (count($errors)): ?>
     <?// only db errors?>
-    <? foreach ($errors as $key => $error): ?>
-        <? if (array_key_exists($key, $attributes)) continue; ?>
-        <p class="form-error"><?= $error ?></p>
-    <? endforeach; ?>
+    <div class="has-error">
+        <? foreach ($errors as $key => $error): ?>
+            <? if (array_key_exists($key, $attributes)) continue; ?>
+            <span class="help-block"><?= $error ?></span>
+        <? endforeach; ?>
+    </div>
 <? endif; ?>
 <form action="" method="post" enctype="multipart/form-data">
     <? foreach ($attributes as $key => $label) {

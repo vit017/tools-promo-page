@@ -10,6 +10,8 @@ use V_Corp\base\Filer;
 class ProductModel extends Model
 {
 
+    public $primaryKey = 'id';
+
     public $id;
     public $code;
     public $name;
@@ -105,17 +107,6 @@ class ProductModel extends Model
         return 'corp_product';
     }
 
-
-    public static function findAll()
-    {
-        return parent::findAll();
-    }
-
-    public static function find(int $id)
-    {
-        return parent::find($id);
-    }
-
     public function afterFind()
     {
         $types = $this->types();
@@ -125,7 +116,8 @@ class ProductModel extends Model
             }
         }
 
-        $this->page = PromoModel::find($this->page);
+        $query['where'] = ['logic' => 'and', 'condition' => [['id', $this->page, '=']]];
+        $this->page = PromoModel::find($query);
     }
 
     public function pages()

@@ -12,17 +12,19 @@ class ManageController extends Controller {
 
     protected static $indexUrl = '/manager/';
     protected static $pageParam = 'page';
+    protected static $countPage = 10;
 
     public static function index()
     {
         $page = ((int)$_GET[static::$pageParam] > 0) ? ((int)$_GET[static::$pageParam] - 1) : 0;
-        $offset = static::$numPages * $page;
-        $models = call_user_func_array([static::$model, 'pageAll'], [$offset, static::$numPages]);
+        $query['offset'] = static::$countPage * $page;
+        $query['limit'] = static::$countPage;
+
+        $models = call_user_func_array([static::$model, 'findAll'], [$query]);
 
         $view = new static::$view('index', $models);
-        $view->pagination = new Pagination(call_user_func_array([static::$model, 'count'], [$offset, static::$numPages]), static::$numPages, $page, static::$pageParam);
-        $view->controller = static::class;
-
+        $view->pagination = new Pagination(call_user_func_array([static::$model, 'count'], [$query]), static::$countPage, $page, static::$pageParam);
+        $view->controller = self::class;
         $view->render();
     }
 
@@ -30,7 +32,8 @@ class ManageController extends Controller {
     {
         $id = (int)$_GET['id'];
 
-        if ($model = call_user_func_array([static::$model, 'find'], [$id])) {
+        $query['where'] = ['logic' => 'AND', 'condition' => [['id', $id, '=']]];
+        if ($model = call_user_func_array([static::$model, 'find'], [$query])) {
             $model->delete();
         }
 
@@ -57,7 +60,8 @@ class ManageController extends Controller {
         if (!$numArgs) {
             $model = new static::$model();
         } elseif ($numArgs && $id) {
-            $model = call_user_func_array([static::$model, 'find'], [$id]);
+            $query['where'] = ['logic' => 'AND', 'condition' => [['id', $id, '=']]];
+            $model = call_user_func_array([static::$model, 'find'], [$query]);
         }
 
         if (!$model) {
