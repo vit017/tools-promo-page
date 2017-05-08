@@ -7,6 +7,7 @@ use V_Corp\base\App;
 use V_Corp\base\controllers\Controller;
 use V_Corp\common\models\ProductModel;
 use V_Corp\manager\views\ProductView;
+use V_Corp\manager\views\ErrorView;
 use V_Corp\manager\Pagination;
 
 
@@ -43,7 +44,17 @@ class ProductController extends Controller
 
     protected static function post($id = 0)
     {
-        $model = ($id > 0) ? ProductModel::find($id) : new ProductModel();
+        $numArgs = func_num_args();
+        if (!$numArgs) {
+            $model = new ProductModel();
+        } elseif ($numArgs && $id) {
+            $model = ProductModel::find($id);
+        }
+
+        if (!$model) {
+            return null;
+        }
+
         if (is_array($_POST) && count($_POST)) {
             $model->load($_POST);
             if ($model->save()) {
@@ -51,7 +62,19 @@ class ProductController extends Controller
             }
         }
 
-        return is_object($model) ? $model : new ProductModel();
+        return $model;
+    }
+
+    protected static function save($id = 0)
+    {
+        $model = func_num_args() ? self::post($id) : self::post();
+        if (!$model) {
+            $view = new ErrorView('main', 400, 'Bad request');
+        } else {
+            $view = new ProductView('update', $model);
+        }
+
+        $view->render();
     }
 
     public static function add()
@@ -64,13 +87,6 @@ class ProductController extends Controller
     {
         App::instance()->title('Update Product #'.(int)$_GET['id']);
         self::save((int)$_GET['id']);
-    }
-
-    protected static function save($id = 0)
-    {
-        $model = self::post($id);
-
-        (new ProductView('update', $model))->render();
     }
 
     public static function import()
