@@ -4,43 +4,21 @@
 namespace V_Corp\manager\controllers;
 
 use V_Corp\base\App;
-use V_Corp\base\controllers\Controller;
 use V_Corp\common\models\ProductModel;
 use V_Corp\manager\views\ProductView;
 use V_Corp\manager\views\ErrorView;
-use V_Corp\manager\Pagination;
 
-
-class ProductController extends Controller
+class ProductController extends ManageController
 {
 
     protected static $flash = [];
     protected static $numPages = 10;
+    protected static $title = 'Products';
+    protected static $indexUrl = '/manager/products';
 
-    public static function index()
-    {
-        App::instance()->title('Products');
-        $page = ((int)$_GET['page'] > 0) ? ((int)$_GET['page'] - 1) : 0;
-        $offset = self::$numPages * $page;
-        $models = ProductModel::pageAll($offset, self::$numPages);
+    protected static $model = ProductModel::class;
+    protected static $view = ProductView::class;
 
-        $view = new ProductView('index', $models);
-        $view->pagination = new Pagination(ProductModel::count(), self::$numPages, $page);
-        $view->controller = self::class;
-
-        $view->render();
-    }
-
-    public static function delete()
-    {
-        $id = (int)$_GET['id'];
-
-        if ($model = ProductModel::find($id)) {
-            $model->delete();
-        }
-
-        self::redirect('/manager/products');
-    }
 
     protected static function post($id = 0)
     {
