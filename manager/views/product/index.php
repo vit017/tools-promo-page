@@ -9,7 +9,7 @@
         <th class="table__edit"></th>
         </thead>
         <tbody>
-        <? foreach ((array)$this->data as $model): ?>
+        <? foreach ($this->data as $model): ?>
             <tr>
                 <? foreach ($attrs as $key => $attr): ?>
                     <td><?= $model->$key ?></td>

@@ -7,15 +7,11 @@ use V_Corp\base\App;
 use V_Corp\common\models\PromoModel;
 use V_Corp\manager\views\PromoView;
 
-
 class PromoController extends ManageController
 {
 
     protected static $model = PromoModel::class;
     protected static $view = PromoView::class;
-
-    protected static $numPages = 10;
-    protected static $indexUrl = '/manager/';
 
 
     public static function index()

@@ -10,12 +10,9 @@ use V_Corp\manager\views\ProductView;
 class ProductController extends ManageController
 {
 
-    protected static $flash = [];
-    protected static $numPages = 10;
-    protected static $indexUrl = '/manager/products';
-
     protected static $model = ProductModel::class;
     protected static $view = ProductView::class;
+    protected static $indexUrl = '/manager/products';
 
 
     public static function index()

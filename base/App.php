@@ -32,7 +32,8 @@ class App
 
     }
 
-    public static function instance() {
+    public static function instance()
+    {
         if (null === self::$_instance) {
             self::$_instance = new self();
         }
@@ -59,12 +60,7 @@ class App
 
     public function request($request)
     {
-        try {
-            call_user_func($request['handler'], $request['params']);
-        }
-        catch (RouteException $e) {
-            dd($e);
-        }
+        call_user_func($request['handler'], $request['params']);
     }
 
     public function db()

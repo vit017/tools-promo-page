@@ -2,7 +2,6 @@
 use V_Corp\base\Html;
 use V_Corp\base\Filer;
 use V_Corp\common\models\PromoModel;
-
 ?>
 <?
 $model = $this->data;

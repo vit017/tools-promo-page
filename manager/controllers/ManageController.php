@@ -10,6 +10,7 @@ use V_Corp\manager\views\ErrorView;
 
 class ManageController extends Controller {
 
+    protected static $flash = [];
     protected static $indexUrl = '/manager/';
     protected static $pageParam = 'page';
     protected static $countPage = 10;

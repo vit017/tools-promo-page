@@ -3,7 +3,6 @@
 
 namespace V_Corp\base\models;
 
-use V_Corp\base\db\ModelMysqli;
 use V_Corp\base\db\MysqliModel;
 
 
@@ -34,7 +33,7 @@ class Model extends MysqliModel
         }
 
         $this->beforeSave();
-        if ($this->id) {
+        if ($this->{$this->primaryKey}) {
             return $this->update();
         } else {
             return $this->insert();
