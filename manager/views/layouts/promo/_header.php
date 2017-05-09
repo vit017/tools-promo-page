@@ -52,7 +52,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/manager/">V_Corp Admin</a>
+            <a class="navbar-brand" href="/manager/">Admin</a>
             <a class="navbar-brand" target="_blank" href="/">Site</a>
         </div>
         <!-- Top Menu Items -->
