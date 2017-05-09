@@ -10,11 +10,14 @@ use V_Corp\base\Filer;
 class ProductModel extends Model
 {
 
+    protected static $defaultSort = '`sort` ASC';
+
     public $primaryKey = 'id';
 
     public $id;
     public $code;
     public $name;
+    public $sort;
     public $photo;
     public $price;
     public $currency;
@@ -32,6 +35,7 @@ class ProductModel extends Model
             'code' => 'Code',
             'page' => 'Promo Page',
             'name' => 'Name',
+            'sort' => 'Sort',
             'photo' => 'Photo',
             'price' => 'Price',
             'currency' => 'Currency',
@@ -46,6 +50,7 @@ class ProductModel extends Model
             'code' => 'raw',
             'page' => 'page',
             'name' => 'raw',
+            'sort' => 'raw',
             'photo' => 'img',
             'price' => 'raw',
             'currency' => 'raw',

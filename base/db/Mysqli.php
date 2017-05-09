@@ -19,6 +19,7 @@ class Mysqli
     private function __construct()
     {
         $this->_connect = new \mysqli($this->_db_host, $this->_db_user, $this->_user_pswd, $this->_db_name);
+        $this->_connect->query('SET NAMES utf8 COLLATE utf8_general_ci');
         if (mysqli_connect_errno()) {
             throw new \mysqli_sql_exception(mysqli_connect_error());
         }

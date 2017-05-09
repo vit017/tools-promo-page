@@ -9,11 +9,14 @@ use V_Corp\base\models\Model;
 class PromoModel extends Model
 {
 
+    protected static $defaultSort = '`sort` ASC';
+
     public $primaryKey = 'id';
 
     public $id;
     public $url;
     public $name;
+    public $sort;
     public $date_show_start;
     public $date_show_end;
     public $header;
@@ -35,6 +38,7 @@ class PromoModel extends Model
             'id' => 'Id',
             'url' => 'Page Url',
             'name' => 'Page Title',
+            'sort' => 'Sort',
             'date_show_start' => 'Page show start',
             'date_show_end' => 'Page show end',
             'header' => 'Header',
@@ -48,6 +52,7 @@ class PromoModel extends Model
             'id' => 'noedit',
             'url' => 'raw',
             'name' => 'raw',
+            'sort' => 'raw',
             'date_show_start' => 'date',
             'date_show_end' => 'date',
             'header' => 'text',
