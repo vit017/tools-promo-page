@@ -29,16 +29,6 @@ class PromoModel extends Model
         return $this->name . ' #' . $this->id;
     }
 
-    public function addError($attr, $msg, $value = '')
-    {
-        $this->_errors[$attr] = $value ? $msg . ' - ' . $value : $msg;
-    }
-
-    public function getErrors()
-    {
-        return $this->_errors;
-    }
-
     public static function attributes()
     {
         return [
@@ -65,21 +55,6 @@ class PromoModel extends Model
         ];
     }
 
-    public function keys()
-    {
-        return array_keys(self::attributes());
-    }
-
-    public function values()
-    {
-        $res = [];
-        foreach (self::attributes() as $key => $val) {
-            $res[] = $this->$key;
-        }
-
-        return $res;
-    }
-
     public static function rules()
     {
         return [
@@ -89,21 +64,6 @@ class PromoModel extends Model
             'date_show_start' => [true],
             'date_show_end' => [true],
         ];
-    }
-
-    public function validate()
-    {
-        $rules = self::rules();
-        foreach ($rules as $attr => $rule) {
-            if ($rule[0] && ('' === trim($this->$attr))) {
-                $this->addError($attr, $attr . ' is required');
-            } elseif ($rule[1] && !preg_match($rule[1], $this->$attr)) {
-                $msg = $rule[2] ?: 'wrong value of field ' . $attr;
-                $this->addError($attr, $msg);
-            }
-        }
-
-        return !count($this->_errors);
     }
 
     public static function tableName()
@@ -130,17 +90,5 @@ class PromoModel extends Model
             }
         }
     }
-
-    public function load(array $input)
-    {
-        foreach ($input as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        }
-
-        return $this;
-    }
-
 
 }

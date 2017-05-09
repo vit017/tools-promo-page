@@ -53,31 +53,6 @@ class ProductModel extends Model
         ];
     }
 
-    public function keys()
-    {
-        return array_keys($this->attributes());
-    }
-
-    public function values()
-    {
-        $res = [];
-        foreach ($this->attributes() as $key => $val) {
-            $res[] = $this->$key;
-        }
-
-        return $res;
-    }
-
-    public function addError($attr, $msg, $value = '')
-    {
-        $this->_errors[$attr] = $value ? $msg . ' - ' . $value : $msg;
-    }
-
-    public function getErrors()
-    {
-        return $this->_errors;
-    }
-
     public function rules()
     {
         return [
@@ -85,21 +60,6 @@ class ProductModel extends Model
             'code' => [true, '/^[\w-]+$/', 'Only latin symbols, underscores, digits'],
             'name' => [true, '/^[\wа-яёА-Я ]+$/'],
         ];
-    }
-
-    public function validate()
-    {
-        $rules = $this->rules();
-        foreach ($rules as $attr => $rule) {
-            if ($rule[0] && ('' === trim($this->$attr))) {
-                $this->addError($attr, $attr . ' is required');
-            } elseif ($rule[1] && !preg_match($rule[1], $this->$attr)) {
-                $msg = $rule[2] ?: 'wrong value of field ' . $attr;
-                $this->addError($attr, $msg);
-            }
-        }
-
-        return !count($this->_errors);
     }
 
     public static function tableName()
@@ -138,17 +98,5 @@ class ProductModel extends Model
             $this->photo = Filer::upload($this, $_FILES['photo']);
         }
     }
-
-    public function load(array $input)
-    {
-        foreach ($input as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        }
-
-        return $this;
-    }
-
 
 }
