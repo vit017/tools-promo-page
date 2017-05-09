@@ -6,14 +6,14 @@
 <br>
 Список полей:<br>
 <br>
--name<br>
--code<br>
--sort<br>
--photo<br>
--articul<br>
--price<br>
--currency<br>
--page<br>
+-<b>name</b><br>
+-<b>code</b><br>
+-<b>sort</b><br>
+-<b>photo</b><br>
+-<b>articul</b><br>
+-<b>price</b><br>
+-<b>currency</b><br>
+-<b>page</b><br>
 <br>
 <b>name</b> - Название товара. Строка длиной не более 255 символов.<br>
 <b>code</b> - Символьный код. Строка длиной не более 255 символов. Допускаются только символы латиницы, цифры, нижнее подчеркивание, дефис.<br>
