@@ -2,6 +2,7 @@
 use V_Corp\base\Html;
 use V_Corp\base\Filer;
 use V_Corp\common\models\PromoModel;
+
 ?>
 <?
 $model = $this->data;
@@ -10,7 +11,7 @@ $attributes = $model->attributes();
 $errors = $model->getErrors();
 ?>
 <? if (count($errors)): ?>
-    <?// only db errors?>
+    <? // only db errors?>
     <? foreach ($errors as $key => $error): ?>
         <? if (array_key_exists($key, $attributes)) continue; ?>
         <p class="form-error"><?= $error ?></p>
@@ -20,7 +21,7 @@ $errors = $model->getErrors();
     <?
     $pages = PromoModel::findAll([]);
     $arPages = [];
-    foreach ($pages as $page) {
+    foreach ((array)$pages as $page) {
         $arPages[$page->id] = ['label' => $page->name, 'value' => $page->id];
     }
     ?>
@@ -57,7 +58,7 @@ $errors = $model->getErrors();
                 break;
             case 'img':
                 if ($model->$key) {
-                    $model->$key = Filer::getPreview($model->$key);
+                    $model->$key = Filer::getPreview($model->$key, 150, 150);
                 }
                 echo Html::img($label, $key, $model->$key);
                 echo array_key_exists($key, $errors)

@@ -84,8 +84,10 @@ class PromoModel extends Model
     {
         return [
             //$attr => [required, regexp, error msg]
-            'url' => [true, '/^\w+$/', 'Only latin symbols, underscores, digits'],
+            'url' => [true, '/^[\w-]+$/', 'Only latin symbols, underscores, digits'],
             'name' => [true, '/^[\wа-яёА-Я ]+$/u'],
+            'date_show_start' => [true],
+            'date_show_end' => [true],
         ];
     }
 

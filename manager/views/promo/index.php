@@ -22,7 +22,7 @@ unset($attrs['footer']);
             <td class="table__edit">
                 <a href="/manager/promo/update?id=<?= $model->{$model->primaryKey} ?>"><span
                             class="glyphicon glyphicon-pencil"></span></a>
-                <a href="/manager/promo/delete?id=<?= $model->{$model->primaryKey} ?>"><span
+                <a class="delete-record" href="/manager/promo/delete?id=<?= $model->{$model->primaryKey} ?>"><span
                             class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>

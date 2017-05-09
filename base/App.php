@@ -21,6 +21,7 @@ class App
     {
         session_start();
         $this->db()->open();
+        date_default_timezone_set($this->timeZone());
     }
 
     private function __clone()
@@ -61,6 +62,10 @@ class App
     public function request($request)
     {
         call_user_func($request['handler'], $request['params']);
+    }
+
+    public function timeZone() {
+        return 'Europe/Samara';
     }
 
     public function db()

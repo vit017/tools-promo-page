@@ -10,31 +10,11 @@ $(function () {
         return true;
     });
 
-    $('#save-promo2').on('click', function (event) {
-        var $form = $(event.target).closest('form');
-        if (!validateForm($form[0])) {
-            return false;
+    $('.delete-record').on('click', function(event) {
+        if (!confirm('Delete record?')) {
+            event.preventDefault();
         }
-        var fd = new FormData($form[0]);
-        Object.keys(CKEDITOR.instances).forEach(function (fieldName) {
-            fd.append(fieldName, CKEDITOR.instances[fieldName].getData().trim());
-        });
-
-        $.ajax({
-            url: $form.attr('action'),
-            data: fd,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            success: function (data) {
-                cl(data)
-            }
-        });
-
-
-        event.preventDefault();
     });
-
 
 });
 

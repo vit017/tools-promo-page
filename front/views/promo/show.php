@@ -1,4 +1,7 @@
-<?= $this->data->header; ?>
+<? use V_Corp\base\Filer; ?>
+<div class="promo__header">
+    <?= $this->data->header; ?>
+</div>
 
 <? foreach ((array)$this->data->products as $key => $product): ?>
     <div class="product">
@@ -6,7 +9,7 @@
             <?= $product->name; ?>
         </div>
         <div class="product__photo">
-            <img src="<?= $product->photo; ?>" alt="<?= $product->name; ?>">
+            <img src="<?= Filer::getPreview($product->photo, 350, 150); ?>" alt="<?= $product->name; ?>">
         </div>
         <div class="product__articul">
             <?= $product->articul; ?>
@@ -17,4 +20,6 @@
     </div>
 <? endforeach; ?>
 
-<?= $this->data->footer; ?>
+<div class="promo__footer">
+    <?= $this->data->footer; ?>
+</div>

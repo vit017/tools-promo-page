@@ -1,6 +1,6 @@
+<a href="/manager/product/add">Add Product</a>
 <? if ($this->data): ?>
     <? $attrs = $this->data[0]->attributes(); ?>
-    <a href="/manager/product/add">Add Product</a>
     <table class="table table-bordered table-responsive">
         <thead>
         <? foreach ($attrs as $key => $attr): ?>
@@ -17,7 +17,7 @@
                 <td class="table__edit">
                     <a href="/manager/product/update?id=<?= $model->{$model->primaryKey} ?>"><span
                                 class="glyphicon glyphicon-pencil"></span></a>
-                    <a href="/manager/product/delete?id=<?= $model->{$model->primaryKey} ?>"><span
+                    <a class="delete-record" href="/manager/product/delete?id=<?= $model->{$model->primaryKey} ?>"><span
                                 class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>

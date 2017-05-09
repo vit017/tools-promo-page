@@ -3,6 +3,7 @@
 
 namespace V_Corp\base\db;
 
+use V_Corp\base\App;
 
 class Mysqli
 {

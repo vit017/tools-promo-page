@@ -82,7 +82,7 @@ class ProductModel extends Model
     {
         return [
             //$attr => [required, regexp, error msg]
-            'code' => [true, '/^\w+$/', 'Only latin symbols, underscores, digits'],
+            'code' => [true, '/^[\w-]+$/', 'Only latin symbols, underscores, digits'],
             'name' => [true, '/^[\wа-яёА-Я ]+$/'],
         ];
     }

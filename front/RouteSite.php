@@ -18,7 +18,7 @@ class RouteSite extends Route
     protected $urls = [
         'get' => [
             '/' => [PromoController::class, 'index'],
-            '/promo/(\\w+)' => [PromoController::class, 'show'],
+            '/promo/([\w-]+)' => [PromoController::class, 'show'],
         ]
     ];
 
