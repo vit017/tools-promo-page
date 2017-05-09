@@ -40,3 +40,6 @@
 Соответствующие ссылки "Edit record" и "Delete record" находятся на странице со списком элементов:<br>
 <a href="http://corp-promo.nichost.ru/manager/">Акции</a><br>
 <a href="http://corp-promo.nichost.ru/manager/products">Товары</a>
+<br>
+<br>
+Подробнее о добавлении товаров см. README-import
